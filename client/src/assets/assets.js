@@ -26,6 +26,7 @@ import main_banner_bg_sm from "./main_banner_bg_sm.png";
 import bottom_banner_image from "./bottom_banner_image.png";
 import bottom_banner_image_sm from "./bottom_banner_image_sm.png";
 import add_address_iamge from "./add_address_image.svg";
+import order_sound from "./order_sound.mp3";
 import sweets from "./sweets.jpg";
 import chetneys_category from "./chetneys_category.jpg";
 import snacks_category from "./snacks_category.jpg";
@@ -105,6 +106,7 @@ export const assets = {
   bottom_banner_image_sm,
   add_address_iamge,
   box_icon,
+  order_sound,
 };
 
 export const categories = [

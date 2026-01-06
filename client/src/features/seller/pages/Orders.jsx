@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useAppContext } from "../../../context/AppContext";
 import { assets } from "../../../assets/assets";
 import toast from "react-hot-toast";
@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 const Orders = () => {
   const { currency, axios } = useAppContext();
   const [orders, setOrders] = useState([]);
+  const ordersRef = useRef([]);
+  const firstLoad = useRef(true);
 
   const statusHandler = async (event, orderId) => {
     try {
@@ -27,7 +29,15 @@ const Orders = () => {
     try {
       const { data } = await axios.get("/api/order/seller");
       if (data.success) {
+        if (data.orders.length > ordersRef.current.length && !firstLoad.current) {
+          const audio = new Audio(assets.order_sound);
+          audio.play().catch((error) => console.error("Audio play failed:", error));
+          toast.success("New Order Received!");
+        }
+
         setOrders(data.orders);
+        ordersRef.current = data.orders;
+        firstLoad.current = false;
       } else {
         toast.error(data.message);
       }
@@ -38,6 +48,9 @@ const Orders = () => {
 
   useEffect(() => {
     fetchOrders();
+
+    const intervalId = setInterval(fetchOrders, 5000);
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
