@@ -139,10 +139,10 @@ const MyOrders = () => {
                         <div>
                           <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Timeline</h3>
                           <div className="flex items-center gap-4 text-xs max-w-sm">
-                            <div className={`flex-1 h-3 rounded-full ${['Order Placed', 'Packing', 'Shipped', 'Out for Delivery', 'Delivered'].indexOf(order.status) >= 0 ? 'bg-primary' : 'bg-gray-200'}`}></div>
-                            <div className={`flex-1 h-3 rounded-full ${['Packing', 'Shipped', 'Out for Delivery', 'Delivered'].indexOf(order.status) >= 0 ? 'bg-primary' : 'bg-gray-200'}`}></div>
-                            <div className={`flex-1 h-3 rounded-full ${['Shipped', 'Out for Delivery', 'Delivered'].indexOf(order.status) >= 0 ? 'bg-primary' : 'bg-gray-200'}`}></div>
-                            <div className={`flex-1 h-3 rounded-full ${['Out for Delivery', 'Delivered'].indexOf(order.status) >= 0 ? 'bg-primary' : 'bg-gray-200'}`}></div>
+                            <div className={`flex-1 h-3 rounded-full ${['Order Placed', 'Packing', 'Shipped', 'Out for Delivery', 'Out for delivery', 'Delivered'].indexOf(order.status) >= 0 ? 'bg-primary' : 'bg-gray-200'}`}></div>
+                            <div className={`flex-1 h-3 rounded-full ${['Packing', 'Shipped', 'Out for Delivery', 'Out for delivery', 'Delivered'].indexOf(order.status) >= 0 ? 'bg-primary' : 'bg-gray-200'}`}></div>
+                            <div className={`flex-1 h-3 rounded-full ${['Shipped', 'Out for Delivery', 'Out for delivery', 'Delivered'].indexOf(order.status) >= 0 ? 'bg-primary' : 'bg-gray-200'}`}></div>
+                            <div className={`flex-1 h-3 rounded-full ${['Out for Delivery', 'Out for delivery', 'Delivered'].indexOf(order.status) >= 0 ? 'bg-primary' : 'bg-gray-200'}`}></div>
                             <div className={`flex-1 h-3 rounded-full ${order.status === 'Delivered' ? 'bg-primary' : 'bg-gray-200'}`}></div>
                           </div>
                           <div className="flex justify-between text-[10px] text-gray-400 mt-2 font-medium uppercase tracking-wider">
