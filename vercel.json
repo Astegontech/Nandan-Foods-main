@@ -3,10 +3,10 @@
     "rewrites": [
         {
             "source": "/api/(.*)",
-            "destination": "/server/server.js"
+            "destination": "https://nandan-foods-main.onrender.com/api/$1"
         },
         {
-            "source": "/(.*)",
+            "source": "/((?!api/.*).*)",
             "destination": "/client/dist/index.html"
         }
     ]
