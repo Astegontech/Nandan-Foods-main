@@ -6,7 +6,7 @@
             "destination": "https://nandan-foods-main.onrender.com/api/$1"
         },
         {
-            "source": "/((?!api/.*).*)",
+            "source": "/(.*)",
             "destination": "/client/dist/index.html"
         }
     ]
