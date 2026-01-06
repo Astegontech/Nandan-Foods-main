@@ -10,9 +10,4 @@
             "destination": "/client/dist/index.html"
         }
     ],
-    "functions": {
-        "server/server.js": {
-            "maxDuration": 10
-        }
-    }
 }
