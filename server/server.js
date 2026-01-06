@@ -49,6 +49,7 @@ const corsOptions = {
 };
 
 app.post("/stripe", express.raw({ type: "application/json" }), stripeWebhooks);
+app.set('trust proxy', 1);
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors(corsOptions));
