@@ -89,20 +89,22 @@ const ProductCard = ({ product }) => {
 
           {/* Weight Selection */}
           {product.availableWeights && product.availableWeights.length > 0 && (
-            <div className="mb-3">
-              <select
-                onClick={(e) => e.stopPropagation()}
-                onChange={(e) => {
-                  e.stopPropagation();
-                  setSelectedWeight(e.target.value);
-                }}
-                value={selectedWeight}
-                className="w-full px-3 py-1.5 text-xs font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors cursor-pointer hover:border-emerald-300"
-              >
-                {product.availableWeights.map((weight, idx) => (
-                  <option key={idx} value={weight}>{weight}</option>
-                ))}
-              </select>
+            <div className={`flex flex-wrap gap-2 mb-3 overflow-x-auto no-scrollbar scroll-smooth ${product.availableWeights.length > 3 ? 'justify-start' : 'justify-start'}`}>
+              {product.availableWeights.map((weight, idx) => (
+                <button
+                  key={idx}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedWeight(weight);
+                  }}
+                  className={`px-2.5 py-1 text-[10px] sm:text-xs font-semibold rounded-md transition-all duration-200 border shadow-sm flex-shrink-0 ${selectedWeight === weight
+                      ? "bg-emerald-600 text-white border-emerald-600"
+                      : "bg-gray-50 text-gray-700 border-gray-200 hover:border-emerald-300 hover:text-emerald-700 hover:bg-emerald-50"
+                    }`}
+                >
+                  {weight}
+                </button>
+              ))}
             </div>
           )}
 
