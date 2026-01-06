@@ -259,7 +259,7 @@ const Login = () => {
       }} className="relative bg-white p-10 rounded-xl text-slate-500 max-w-md w-full">
 
         <h1 className="text-center text-2xl text-neutral-700 font-medium mb-2">{renderTitle()}</h1>
-        <p className="text-sm text-center mb-6">Welcome to Kisan Agritech</p>
+        <p className="text-sm text-center mb-6">Welcome to Nandan Foods</p>
 
         {renderContent()}
 
