@@ -94,8 +94,13 @@ const Orders = () => {
         {orders.map((order, index) => (
           <div
             key={index}
-            className="flex flex-col md:items-center md:flex-row gap-5 justify-between p-5 max-w-4xl rounded-md border border-gray-300"
+            className="relative flex flex-col md:items-center md:flex-row gap-5 justify-between p-5 max-w-4xl rounded-md border border-gray-300"
           >
+            {order.status === "Order Placed" && (
+              <p className="absolute top-0 right-2 text-red-500 font-medium text-sm">
+                New
+              </p>
+            )}
             <div className="flex gap-5 max-w-80">
               <img
                 className="w-12 h-12 object-cover "
