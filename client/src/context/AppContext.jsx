@@ -163,7 +163,7 @@ export const AppContextProvider = ({ children }) => {
 
   const value = {
     navigate,
-    navigate,
+
     user,
     isAuthLoading,
     getCartCount,

@@ -17,11 +17,42 @@ const port = process.env.PORT || 4000;
 await connectDB();
 await connectCloudinary();
 
-const allowedOrigins = ["http://localhost:5173", "http://localhost:5174", "https://frontend-rosy-xi-27.vercel.app"];
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:4000",
+  "http://localhost:3000"
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, or same-origin)
+    if (!origin) return callback(null, true);
+
+    // Check if origin is in strict allowed list
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    }
+
+    // Allow any Vercel deployment
+    if (origin.endsWith('.vercel.app')) {
+      return callback(null, true);
+    }
+
+    // Allow your specific custom domain if you have one
+    // if (origin === 'https://your-custom-domain.com') return callback(null, true);
+
+    const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+    return callback(new Error(msg), false);
+  },
+  credentials: true
+};
+
 app.post("/stripe", express.raw({ type: "application/json" }), stripeWebhooks);
+app.set('trust proxy', 1);
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: allowedOrigins, credentials: true }));
+app.use(cors(corsOptions));
 app.use((req, res, next) => {
   console.log(`Request: ${req.method} ${req.url}`);
   next();
@@ -40,9 +71,10 @@ app.use("/api/order", orderRouter);
 // Export app for Vercel
 export default app;
 
-// Only listen if not running in Vercel (local dev)
-if (process.env.NODE_ENV !== 'production') {
+// Listen if strictly local OR running on Render
+// Vercel serverless will skip this because NODE_ENV is production and RENDER is undefined
+if (process.env.NODE_ENV !== 'production' || process.env.RENDER) {
   app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server started on port ${port}`);
   });
 }

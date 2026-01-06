@@ -85,6 +85,7 @@ export const registerUser = async (req, res) => {
 
       <div style="margin: 20px 0; text-align: center;">
         <span style="font-size: 28px; font-weight: bold; letter-spacing: 4px; color: #287ae4ff;">
+          
           ${otp}
         </span>
       </div>

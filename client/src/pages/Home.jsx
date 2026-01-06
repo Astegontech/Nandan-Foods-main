@@ -1,8 +1,8 @@
 import React from "react";
-import MainBanner from "../components/MainBanner";
-import Categories from "../components/Categories";
-import BestSeller from "../components/BestSeller";
-import BottomBanner from "../components/BottomBanner";
+import MainBanner from "../components/ui/MainBanner";
+import Categories from "../features/shop/components/Categories";
+import BestSeller from "../features/shop/components/BestSeller";
+import BottomBanner from "../components/ui/BottomBanner";
 
 const Home = () => {
   return (

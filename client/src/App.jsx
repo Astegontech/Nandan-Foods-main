@@ -2,26 +2,26 @@ import { Route, Routes, useLocation, Navigate, useNavigate } from "react-router-
 import React, { useEffect } from "react";
 
 import Home from "./pages/Home";
-import AllProducts from "./pages/AllProducts";
+import AllProducts from "./features/shop/pages/AllProducts";
 import { Toaster } from "react-hot-toast";
-import Footer from "./components/Footer";
+import Footer from "./components/layout/Footer";
 import { useAppContext } from "./context/AppContext";
-import Login from "./components/Login";
-import ProductCategory from "./pages/ProductCategory";
-import ProductDetails from "./pages/ProductDetails";
-import Cart from "./pages/Cart";
-import AddAddress from "./pages/AddAddress";
-import MyOrders from "./pages/MyOrders";
-import SellerLogin from "./components/seller/SellerLogin";
-import SellerLayout from "./pages/seller/SellerLayout";
-import Navbar from "./components/Navbar";
-import AddProducts from "./pages/seller/AddProducts";
-import ProductList from "./pages/seller/ProductList";
-import Orders from "./pages/seller/Orders";
-import EditProduct from "./pages/seller/EditProduct";
-import Loading from "./components/Loading";
+import Login from "./features/auth/components/Login";
+import ProductCategory from "./features/shop/pages/ProductCategory";
+import ProductDetails from "./features/shop/pages/ProductDetails";
+import Cart from "./features/shop/pages/Cart";
+import AddAddress from "./features/user/pages/AddAddress";
+import MyOrders from "./features/user/pages/MyOrders";
+import SellerLogin from "./features/seller/components/SellerLogin";
+import SellerLayout from "./features/seller/pages/SellerLayout";
+import Navbar from "./components/layout/Navbar";
+import AddProducts from "./features/seller/pages/AddProducts";
+import ProductList from "./features/seller/pages/ProductList";
+import Orders from "./features/seller/pages/Orders";
+import EditProduct from "./features/seller/pages/EditProduct";
+import Loading from "./components/ui/Loading";
 import Contact from "./pages/Contact";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./features/auth/components/ProtectedRoute";
 
 
 
