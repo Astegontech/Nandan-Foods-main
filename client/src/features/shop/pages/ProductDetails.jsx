@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../../context/AppContext";
 import { Link, useParams } from "react-router-dom";
 import { assets } from "../../../assets/assets";
@@ -25,10 +25,11 @@ const ProductDetails = () => {
     const currentVariant = getVariantPrice();
 
     useEffect(() => {
-        if (products.length > 0) {
-            let productsCopy = products.slice();
-            productsCopy = productsCopy.filter(
-                (item) => product.category === item.category && item._id !== product._id
+        if (products.length > 0 && product) {
+            const productsCopy = products.filter(
+                (item) =>
+                    item.category?.toLowerCase() === product.category?.toLowerCase() &&
+                    item._id !== product._id
             );
             setRelatedProducts(productsCopy.slice(0, 5));
         }
@@ -168,8 +169,8 @@ const ProductDetails = () => {
                                                 key={idx}
                                                 onClick={() => setSelectedWeight(weight)}
                                                 className={`px-5 py-2 rounded-lg border font-medium text-sm transition-all ${selectedWeight === weight
-                                                        ? 'border-primary bg-primary text-white shadow-md'
-                                                        : 'border-gray-200 text-gray-700 hover:border-primary hover:text-primary bg-white'
+                                                    ? 'border-primary bg-primary text-white shadow-md'
+                                                    : 'border-gray-200 text-gray-700 hover:border-primary hover:text-primary bg-white'
                                                     }`}
                                             >
                                                 {weight}
