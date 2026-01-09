@@ -67,7 +67,7 @@ const MyOrders = () => {
                 >
                   <div className="col-span-1 md:col-span-3 font-mono text-sm text-gray-600 truncate pr-2">
                     <span className="md:hidden text-xs text-gray-400 uppercase mr-1">#</span>
-                    {order._id.slice(-8).toUpperCase()}
+                    {order._id.toUpperCase()}
                   </div>
                   <div className="col-span-1 md:col-span-2 text-sm text-gray-500 text-right md:text-left">
                     {new Date(order.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
