@@ -2,6 +2,7 @@ import Order from "../models/order.js";
 import Product from "../models/product.js";
 import stripe from "stripe";
 import User from "../models/User.js";
+import Address from "../models/Address.js";
 
 export const placeOrderCOD = async (req, res) => {
   try {
@@ -14,7 +15,27 @@ export const placeOrderCOD = async (req, res) => {
       });
     }
 
-    let amount = await items.reduce(async (acc, item) => {
+    // 1. Validate Address Ownership
+    const addressExists = await Address.findOne({ _id: address, userId });
+    if (!addressExists) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid address selected",
+      });
+    }
+
+    let amount = 0;
+
+    // 2. Validate Items & Calculate Amount
+    for (const item of items) {
+      // Validate Quantity
+      if (!item.quantity || item.quantity <= 0) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid quantity for item",
+        });
+      }
+
       const product = await Product.findById(item.product);
       if (!product) {
         return res.status(404).json({
@@ -25,16 +46,28 @@ export const placeOrderCOD = async (req, res) => {
 
       let itemPrice = product.offerPrice; // Default price
 
-      // Check if product has weight variants and weight is specified in order
+      // Check Weight Variant & Stock
       if (item.weight && product.weightVariants && product.weightVariants.length > 0) {
         const variant = product.weightVariants.find(v => v.weight === item.weight);
-        if (variant) {
-          itemPrice = variant.offerPrice;
+        if (!variant) {
+          return res.status(400).json({ success: false, message: `Variant ${item.weight} not found for ${product.name}` });
+        }
+
+        // Stock Check for Variant
+        if (variant.stock < item.quantity) {
+          return res.status(400).json({ success: false, message: `${product.name} (${item.weight}) is out of stock` });
+        }
+
+        itemPrice = variant.offerPrice;
+      } else {
+        // Stock Check for Standard Product
+        if (!product.inStock) {
+          return res.status(400).json({ success: false, message: `${product.name} is out of stock` });
         }
       }
 
-      return (await acc) + itemPrice * item.quantity;
-    }, 0);
+      amount += itemPrice * item.quantity;
+    }
 
     amount += Math.floor(amount * 0.02);
 
@@ -68,36 +101,57 @@ export const placeOrderStripe = async (req, res) => {
       });
     }
 
-    let productData = [];
+    // 1. Validate Address Ownership
+    const addressExists = await Address.findOne({ _id: address, userId });
+    if (!addressExists) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid address selected",
+      });
+    }
 
-    let amount = await items.reduce(async (acc, item) => {
-      const product = await Product.findById(item.product);
-      if (!product) {
-        return res.status(404).json({
-          success: false,
-          message: "Product not found",
-        });
+    let productData = [];
+    let amount = 0;
+
+    // 2. Validate Items & Calculate Amount
+    for (const item of items) {
+      // Validate Quantity
+      if (!item.quantity || item.quantity <= 0) {
+        return res.status(400).json({ success: false, message: "Invalid quantity" });
       }
 
-      let itemPrice = product.offerPrice; // Default price
+      const product = await Product.findById(item.product);
+      if (!product) {
+        return res.status(404).json({ success: false, message: "Product not found" });
+      }
 
-      // Check if product has weight variants and weight is specified in order
+      let itemPrice = product.offerPrice;
+
       if (item.weight && product.weightVariants && product.weightVariants.length > 0) {
         const variant = product.weightVariants.find(v => v.weight === item.weight);
-        if (variant) {
-          itemPrice = variant.offerPrice;
+        if (!variant) {
+          return res.status(400).json({ success: false, message: `Variant ${item.weight} not found for ${product.name}` });
+        }
+        // Stock Check
+        if (variant.stock < item.quantity) {
+          return res.status(400).json({ success: false, message: `${product.name} (${item.weight}) is out of stock` });
+        }
+        itemPrice = variant.offerPrice;
+      } else {
+        // Stock Check
+        if (!product.inStock) {
+          return res.status(400).json({ success: false, message: `${product.name} is out of stock` });
         }
       }
 
-      // Add to productData for Stripe, using the CORRECT itemPrice
       productData.push({
-        name: `${product.name} ${item.weight ? `(${item.weight})` : ""}`, // Add weight to name for clarity
+        name: `${product.name} ${item.weight ? `(${item.weight})` : ""}`,
         price: itemPrice,
         quantity: item.quantity,
       });
 
-      return (await acc) + itemPrice * item.quantity;
-    }, 0);
+      amount += itemPrice * item.quantity;
+    }
 
     amount += Math.floor(amount * 0.02);
 
@@ -115,7 +169,7 @@ export const placeOrderStripe = async (req, res) => {
     const line_items = productData.map((item) => {
       return {
         price_data: {
-          currency: "inr", // Changed to INR as per currency var usually used, or check env. Assuming INR or USD based on previous context. Previous buffer used 'usd', but project seems Indian (Kisan). Let's stick to environment variable or existing 'usd' but strictly speaking it should probably be dynamic. Sticking to 'usd' to match previous code unless I see 'INR' elsewhere. Actually, let's keep 'usd' BUT the previous code had 'usd' but typically Indian projects use INR. I'll stick to 'usd' to be safe for now, or 'inr' if I saw it. Wait, the user has 'VITE_CURRENCY' in frontend.
+          currency: "inr",
           product_data: {
             name: item.name,
           },
