@@ -10,6 +10,7 @@ const ProductDetails = () => {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [thumbnail, setThumbnail] = useState(null);
   const [selectedWeight, setSelectedWeight] = useState("");
+  const [showFullDescription, setShowFullDescription] = useState(false);
   const product = products.find((item) => item._id === id);
 
   // Get price for selected weight variant
@@ -147,8 +148,8 @@ const ProductDetails = () => {
                         key={idx}
                         onClick={() => setSelectedWeight(weight)}
                         className={`px-6 py-3 rounded-full border text-sm font-medium transition-all duration-200 ${selectedWeight === weight
-                            ? 'border-black bg-black text-white'
-                            : 'border-gray-200 text-gray-600 hover:border-black'
+                          ? 'border-black bg-black text-white'
+                          : 'border-gray-200 text-gray-600 hover:border-black'
                           }`}
                       >
                         {weight}
@@ -221,4 +222,4 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
-```
+
