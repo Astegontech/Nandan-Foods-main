@@ -26,9 +26,27 @@ export const placeOrderCOD = async (req, res) => {
 
     let amount = 0;
 
+    // Fetch User to get Cart Items
+    const user = await User.findById(userId);
+    const cartItems = user.cartItems || {};
+
     // 2. Validate Items & Calculate Amount
     for (const item of items) {
-      // Validate Quantity
+      // Create Cart Key
+      const cartKey = item.weight ? `${item.product}-${item.weight}` : item.product;
+
+      // Validate Item exists in Cart
+      if (!cartItems[cartKey]) {
+        return res.status(400).json({
+          success: false,
+          message: `Item not found in cart`,
+        });
+      }
+
+      // OVERRIDE quantity from Database
+      item.quantity = cartItems[cartKey];
+
+      // Validate Quantity (Double check, though DB should be correct)
       if (!item.quantity || item.quantity <= 0) {
         return res.status(400).json({
           success: false,
@@ -113,8 +131,26 @@ export const placeOrderStripe = async (req, res) => {
     let productData = [];
     let amount = 0;
 
+    // Fetch User to get Cart Items
+    const user = await User.findById(userId);
+    const cartItems = user.cartItems || {};
+
     // 2. Validate Items & Calculate Amount
     for (const item of items) {
+      // Create Cart Key
+      const cartKey = item.weight ? `${item.product}-${item.weight}` : item.product;
+
+      // Validate Item exists in Cart
+      if (!cartItems[cartKey]) {
+        return res.status(400).json({
+          success: false,
+          message: `Item not found in cart`,
+        });
+      }
+
+      // OVERRIDE quantity from Database
+      item.quantity = cartItems[cartKey];
+
       // Validate Quantity
       if (!item.quantity || item.quantity <= 0) {
         return res.status(400).json({ success: false, message: "Invalid quantity" });

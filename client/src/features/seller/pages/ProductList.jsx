@@ -190,7 +190,7 @@ const ProductList = () => {
                         />
                       </div>
                       <span className="truncate hidden sm:block max-w-[180px]">
-                        {product.name}
+                        {product.name?.charAt(0).toUpperCase() + product.name?.slice(1)}
                       </span>
                     </div>
                   </td>

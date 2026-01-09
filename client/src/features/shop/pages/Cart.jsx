@@ -182,7 +182,7 @@ const Cart = () => {
                     <img src={product.image[0]} alt={product.name} className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-800 text-lg mb-1">{product.name}</h3>
+                    <h3 className="font-semibold text-gray-800 text-lg mb-1">{product.name?.charAt(0).toUpperCase() + product.name?.slice(1)}</h3>
                     {product.selectedWeight && (
                       <p className="text-sm text-emerald-600 font-medium mb-2">Weight: {product.selectedWeight}</p>
                     )}

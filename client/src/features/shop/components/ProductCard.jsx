@@ -61,23 +61,23 @@ const ProductCard = ({ product }) => {
 
         <div className="p-3 flex flex-col flex-grow">
           {/* Header: Category & Rating */}
-          <div className="flex justify-between items-start mb-1.5">
-            <span className="px-2 py-0.5 rounded-full bg-emerald-600 text-white text-[10px] font-bold uppercase tracking-wider shadow-sm">
+          {/* <div className="flex justify-between items-start mb-1.5"> */}
+            {/* <span className="px-2 py-0.5 rounded-full bg-emerald-600 text-white text-[10px] font-bold uppercase tracking-wider shadow-sm">
               {product.category}
             </span>
             <div className="flex items-center gap-1 bg-white">
-              <div className="flex text-yellow-500 text-xs">
+              <div className="flex text-yellow-500 text-xs"> */}
                 {/* Static rating for now as per original code */}
-                {"★★★★☆".split("").map((star, i) => (
+                {/* {"★★★★☆".split("").map((star, i) => (
                   <span key={i} className={i < 4 ? "text-yellow-400" : "text-gray-300"}>★</span>
                 ))}
               </div>
               <span className="text-[10px] text-gray-400 font-medium ml-0.5">(4)</span>
             </div>
-          </div>
+          </div> */}
 
           <h3 className="text-gray-800 font-bold text-sm sm:text-base mb-1 leading-tight line-clamp-2 min-h-[2.2rem]">
-            {product.name}
+            {product.name?.charAt(0).toUpperCase() + product.name?.slice(1)}
           </h3>
 
           {/* Low Stock Indicator */}

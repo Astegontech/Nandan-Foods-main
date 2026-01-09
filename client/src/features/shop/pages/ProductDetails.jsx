@@ -54,7 +54,7 @@ const ProductDetails = () => {
                         <span className="text-gray-300">/</span>
                         <Link to="/products" className="hover:text-primary transition">Products</Link>
                         <span className="text-gray-300">/</span>
-                        <span className="text-gray-900 truncate max-w-xs">{product.name}</span>
+                        <span className="text-gray-900 truncate max-w-xs">{product.name?.charAt(0).toUpperCase() + product.name?.slice(1)}</span>
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
@@ -94,11 +94,11 @@ const ProductDetails = () => {
                         <div className="flex flex-col">
 
                             <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2 font-outfit">
-                                {product.name}
+                                {product.name?.charAt(0).toUpperCase() + product.name?.slice(1)}
                             </h1>
 
                             {/* Rating + Stock */}
-                            <div className="flex items-center gap-4 mb-6">
+                            {/* <div className="flex items-center gap-4 mb-6">
                                 <div className="flex items-center gap-1">
                                     {Array(5).fill("").map((_, i) => (
                                         <img key={i} src={i < 4 ? assets.star_icon : assets.star_dull_icon} className="w-4 h-4" alt="" />
@@ -109,7 +109,7 @@ const ProductDetails = () => {
                                 <span className="text-sm font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
                                     In Stock
                                 </span>
-                            </div>
+                            </div> */}
 
                             {/* Price */}
                             <div className="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100 inline-block w-full sm:w-auto">
