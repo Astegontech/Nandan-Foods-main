@@ -37,11 +37,11 @@ const Categories = () => {
 
               {/* Image Container with Floating Effect */}
               <div className="relative mb-6 transform transition-transform duration-500 group-hover:-translate-y-2 group-hover:scale-110">
-                <div className="w-32 h-32 md:w-44 md:h-44 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] bg-white p-4 flex items-center justify-center relative z-10 group-hover:shadow-[0_20px_40px_rgb(0,0,0,0.2)] transition-shadow duration-500">
+                <div className="w-32 h-32 md:w-44 md:h-44 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] bg-white flex items-center justify-center relative z-10 group-hover:shadow-[0_20px_40px_rgb(0,0,0,0.2)] transition-shadow duration-500 overflow-hidden">
                   <img
                     src={category.image}
                     alt={category.text}
-                    className="w-full h-full object-contain drop-shadow-md"
+                    className="w-full h-full object-cover"
                   />
                 </div>
                 {/* Decorative Ring */}

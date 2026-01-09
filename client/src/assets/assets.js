@@ -27,11 +27,47 @@ import bottom_banner_image from "./bottom_banner_image.png";
 import bottom_banner_image_sm from "./bottom_banner_image_sm.png";
 import add_address_iamge from "./add_address_image.svg";
 import order_sound from "./order_sound.mp3";
-import sweets from "./sweets.jpg";
+import sweets_circle from "./sweets_circle.png";
+import meals_circle from "./meals_circle.png";
 import chetneys_category from "./chetneys_category.jpg";
 import snacks_category from "./snacks_category.jpg";
 import pickles_category from "./pickles_category.jpg";
-import meals_category from "./meals_category.jpg";
+import meals_category from "./meals_category.jpg"; // Keeping specifically if used elsewhere, though likely not.
+import sweets from "./sweets.jpg"; // Keeping
+
+// ... (other imports) ...
+
+export const categories = [
+  {
+    text: "Sweets",
+    path: "sweets",
+    image: sweets_circle,
+    bgColor: "#FEF6DA",
+  },
+  {
+    text: "Chutney pudi",
+    path: "chutney pudi",
+    image: chetneys_category,
+    bgColor: "#FEE0E0",
+  },
+  {
+    text: "Meals",
+    path: "meals",
+    image: meals_circle,
+    bgColor: "#E0F6FE",
+  },
+  {
+    text: "Pickles",
+    path: "pickles",
+    image: pickles_category,
+    bgColor: "#FEE6CD",
+  },
+  {
+    text: "Special Snacks",
+    path: "special snacks",
+    image: snacks_category,
+    bgColor: "#F0F5DE",
+  },
 // import maggi_image from "./maggi_image.png";
 // import bottles_image from "./bottles_image.png";
 // import fresh_fruits_image from "./fresh_fruits_image.png";
@@ -109,45 +145,7 @@ export const assets = {
   order_sound,
 };
 
-export const categories = [
-  {
-    text: "Sweets",
-    path: "sweets",
-    image: sweets,
-    bgColor: "#FEF6DA",
-  },
-  {
-    text: "Chutney pudi",
-    path: "chutney pudi",
-    image: chetneys_category,
-    bgColor: "#FEE0E0",
-  },
-  {
-    text: "Meals",
-    path: "meals",
-    image: meals_category,
-    bgColor: "#E0F6FE",
-  },
-  {
-    text: "Pickles",
-    path: "pickles",
-    image: pickles_category,
-    bgColor: "#FEE6CD",
-  },
-  {
-    text: "Special Snacks",
-    path: "special snacks",
-    image: snacks_category,
-    bgColor: "#F0F5DE",
-  },
 
-  // {
-  //   text: "Grains & Cereals",
-  //   path: "Grains",
-  //   image: grain_image,
-  //   bgColor: "#F1E3F9",
-  // },
-];
 
 export const footerLinks = [
   {
