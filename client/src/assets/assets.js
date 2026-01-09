@@ -29,10 +29,13 @@ import add_address_iamge from "./add_address_image.svg";
 import order_sound from "./order_sound.mp3";
 import sweets_circle from "./sweets_circle.png";
 import meals_circle from "./meals_circle.png";
-import chetneys_category from "./chetneys_category.jpg";
-import snacks_category from "./snacks_category.jpg";
-import pickles_category from "./pickles_category.jpg";
-import meals_category from "./meals_category.jpg"; // Keeping specifically if used elsewhere, though likely not.
+import chutney_circle from "./chutney_circle.png";
+import pickles_circle from "./pickles_circle.png";
+import snacks_circle from "./snacks_circle.png";
+import chetneys_category from "./chetneys_category.jpg"; // Keeping if needed
+import snacks_category from "./snacks_category.jpg"; // Keeping if needed
+import pickles_category from "./pickles_category.jpg"; // Keeping if needed
+import meals_category from "./meals_category.jpg"; // Keeping
 import sweets from "./sweets.jpg"; // Keeping
 
 // ... (other imports) ...
@@ -47,7 +50,7 @@ export const categories = [
   {
     text: "Chutney pudi",
     path: "chutney pudi",
-    image: chetneys_category,
+    image: chutney_circle,
     bgColor: "#FEE0E0",
   },
   {
@@ -59,13 +62,13 @@ export const categories = [
   {
     text: "Pickles",
     path: "pickles",
-    image: pickles_category,
+    image: pickles_circle,
     bgColor: "#FEE6CD",
   },
   {
     text: "Special Snacks",
     path: "special snacks",
-    image: snacks_category,
+    image: snacks_circle,
     bgColor: "#F0F5DE",
   },
 ];
