@@ -89,7 +89,11 @@ export const placeOrderCOD = async (req, res) => {
 
     amount += Math.floor(amount * 0.02);
 
+    // Generate custom Order ID
+    const newOrderId = `#RN-${new mongoose.Types.ObjectId()}`;
+
     await Order.create({
+      _id: newOrderId,
       userId,
       items,
       amount,
@@ -191,7 +195,11 @@ export const placeOrderStripe = async (req, res) => {
 
     amount += Math.floor(amount * 0.02);
 
+    // Generate custom Order ID
+    const newOrderId = `#RN-${new mongoose.Types.ObjectId()}`;
+
     const order = await Order.create({
+      _id: newOrderId,
       userId,
       items,
       amount,
