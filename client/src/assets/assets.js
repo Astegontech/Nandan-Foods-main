@@ -68,6 +68,7 @@ export const categories = [
     image: snacks_category,
     bgColor: "#F0F5DE",
   },
+];
 // import maggi_image from "./maggi_image.png";
 // import bottles_image from "./bottles_image.png";
 // import fresh_fruits_image from "./fresh_fruits_image.png";
