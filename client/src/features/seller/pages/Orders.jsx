@@ -146,7 +146,7 @@ const Orders = () => {
             </div>
 
             <select
-              onChange={(event) => statusHandler(event, order._id)}
+              onChange={(event) => statusHandler(event, order._id || "")}
               value={order.status}
               className="p-2 font-semibold"
             >

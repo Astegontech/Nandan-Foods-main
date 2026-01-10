@@ -120,7 +120,6 @@ export const placeOrderCOD = async (req, res) => {
     const newOrderId = new mongoose.Types.ObjectId().toString();
 
     await Order.create({
-      _id: newOrderId,
       userId,
       items,
       amount,
@@ -149,6 +148,7 @@ export const getUserOrders = async (req, res) => {
     })
       .populate("items.product address")
       .sort({ createdAt: -1 });
+
     res.status(200).json({
       success: true,
       message: "Orders fetched successfully",
@@ -166,6 +166,7 @@ export const getAllOrders = async (req, res) => {
     })
       .populate("items.product address")
       .sort({ createdAt: -1 });
+
     res.status(200).json({
       success: true,
       orders,
