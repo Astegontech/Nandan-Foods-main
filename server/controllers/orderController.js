@@ -304,11 +304,22 @@ export const getUserOrders = async (req, res) => {
       .populate("items.product address")
       .sort({ createdAt: -1 })
       .lean();
-    console.log("Fetched Orders:", JSON.stringify(orders, null, 2));
+
+    // Explicitly handle potentially missing _id or serialization issues
+    const validOrders = orders.map(order => {
+      // console.log("Processing Order:", order._id); 
+      return {
+        ...order,
+        _id: order._id || order.id || "MISSING_ID", // Fallback
+      };
+    });
+
+    console.log("Fetched Orders (First 1):", JSON.stringify(validOrders[0], null, 2));
+
     res.status(200).json({
       success: true,
       message: "Orders fetched successfully",
-      orders,
+      orders: validOrders,
     });
   } catch (error) {
     res.json({ success: false, message: error.message });
@@ -323,9 +334,18 @@ export const getAllOrders = async (req, res) => {
       .populate("items.product address")
       .sort({ createdAt: -1 })
       .lean();
+
+    // Explicitly handle potentially missing _id or serialization issues
+    const validOrders = orders.map(order => {
+      return {
+        ...order,
+        _id: order._id || order.id || "MISSING_ID", // Fallback
+      };
+    });
+
     res.status(200).json({
       success: true,
-      orders,
+      orders: validOrders,
     });
   } catch (error) {
     res.json({ success: false, message: error.message });
