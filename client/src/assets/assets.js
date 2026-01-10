@@ -55,12 +55,12 @@ export const categories = [
     image: chutney_circle,
     bgColor: "#FEE0E0",
   },
-  {
-    text: "Meals",
-    path: "meals",
-    image: meals_circle,
-    bgColor: "#E0F6FE",
-  },
+  // {
+  //   text: "Meals",
+  //   path: "meals",
+  //   image: meals_circle,
+  //   bgColor: "#E0F6FE",
+  // },
   {
     text: "Pickles",
     path: "pickles",
@@ -151,8 +151,6 @@ export const assets = {
   order_sound,
 };
 
-
-
 export const footerLinks = [
   {
     title: "Quick Links",
@@ -177,9 +175,9 @@ export const footerLinks = [
     title: "Follow Us",
     links: [
       { text: "Instagram", url: "#" },
-      { text: "Twitter", url: "#" },
-      { text: "Facebook", url: "#" },
-      { text: "YouTube", url: "#" },
+      // { text: "Twitter", url: "#" },
+      // { text: "Facebook", url: "#" },
+      // { text: "YouTube", url: "#" },
     ],
   },
 ];
@@ -206,7 +204,6 @@ export const features = [
     description: "Packed hygienically, delivered fresh.",
   },
 ];
-
 
 // export const dummyProducts = [
 //   // Vegetables

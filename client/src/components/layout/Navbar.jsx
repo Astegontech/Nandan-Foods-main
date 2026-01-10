@@ -14,6 +14,7 @@ const Navbar = () => {
     searchQuery,
     setSearchQuery,
     getCartCount,
+    setCartItems,
     axios,
   } = useAppContext();
 
@@ -40,7 +41,7 @@ const Navbar = () => {
   }, [searchQuery]);
 
   return (
-    <nav className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all">
+    <nav className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white">
       <NavLink to="/" onClick={() => setOpen(false)}>
         <img className="h-10 w-auto" src={assets.logo} alt="logo" />
         <h1 className="sr-only">NANDAN FOODS</h1>
@@ -123,8 +124,9 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {open && (
         <div
-          className={`${open ? "flex" : "hidden"
-            } absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden z-50`}
+          className={`${
+            open ? "flex" : "hidden"
+          } absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden z-50`}
         >
           <NavLink to="/" onClick={() => setOpen(false)}>
             Home

@@ -15,6 +15,9 @@ const orderSchema = new mongoose.Schema(
     status: { type: String, required: true, default: "Order Placed" },
     paymentType: { type: String, required: true },
     isPaid: { type: Boolean, required: true, default: false },
+    razorpayOrderId: { type: String },
+    payment: { type: Object },
+    paymentMethod: { type: String },
   },
   { timestamps: true }
 );

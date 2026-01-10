@@ -10,7 +10,6 @@ import productRouter from "./routes/productRoute.js";
 import cartRouter from "./routes/cartRoute.js";
 import addressRouter from "./routes/addressRoute.js";
 import orderRouter from "./routes/orderRoute.js";
-import { stripeWebhooks } from "./controllers/orderController.js";
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -21,7 +20,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
   "http://localhost:4000",
-  "http://localhost:3000"
+  "http://localhost:3000",
 ];
 
 const corsOptions = {
@@ -35,26 +34,25 @@ const corsOptions = {
     }
 
     // Allow any Vercel deployment
-    if (origin.endsWith('.vercel.app')) {
+    if (origin.endsWith(".vercel.app")) {
       return callback(null, true);
     }
 
     // Allow your specific custom domain if you have one
     // if (origin === 'https://your-custom-domain.com') return callback(null, true);
 
-    const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+    const msg =
+      "The CORS policy for this site does not allow access from the specified Origin.";
     return callback(new Error(msg), false);
   },
-  credentials: true
+  credentials: true,
 };
 
-app.post("/stripe", express.raw({ type: "application/json" }), stripeWebhooks);
-app.set('trust proxy', 1);
+app.set("trust proxy", 1);
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use((req, res, next) => {
-  console.log(`Request: ${req.method} ${req.url}`);
   next();
 });
 
@@ -73,7 +71,7 @@ export default app;
 
 // Listen if strictly local OR running on Render
 // Vercel serverless will skip this because NODE_ENV is production and RENDER is undefined
-if (process.env.NODE_ENV !== 'production' || process.env.RENDER) {
+if (process.env.NODE_ENV !== "production" || process.env.RENDER) {
   app.listen(port, () => {
     console.log(`Server started on port ${port}`);
   });
