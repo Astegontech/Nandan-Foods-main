@@ -2,7 +2,7 @@
 
 ![MERN Stack](https://img.shields.io/badge/MERN-Stack-green) ![License](https://img.shields.io/badge/License-ISC-blue) ![Status](https://img.shields.io/badge/Status-Active_Development-orange)
 
-A comprehensive, full-stack e-commerce solution catering to agricultural products. The platform connects customers with quality food products through a seamless shopping experience and empowers sellers with a robust dashboard for real-time order management.
+A comprehensive, full-stack e-commerce solution catering to Food products. The platform connects customers with quality food products through a seamless shopping experience and empowers sellers with a robust dashboard for real-time order management.
 
 ## 📚 Table of Contents
 - [Architecture](#-architecture)
