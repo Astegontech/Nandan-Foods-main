@@ -3,6 +3,7 @@ import Product from "../models/product.js";
 import stripe from "stripe";
 import User from "../models/User.js";
 import Address from "../models/Address.js";
+import mongoose from "mongoose";
 
 export const placeOrderCOD = async (req, res) => {
   try {
