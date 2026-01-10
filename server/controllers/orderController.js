@@ -90,11 +90,7 @@ export const placeOrderCOD = async (req, res) => {
 
     amount += Math.floor(amount * 0.02);
 
-    // Generate custom Order ID
-    const newOrderId = `#RN-${new mongoose.Types.ObjectId()}`;
-
     await Order.create({
-      _id: newOrderId,
       userId,
       items,
       amount,
@@ -196,11 +192,7 @@ export const placeOrderStripe = async (req, res) => {
 
     amount += Math.floor(amount * 0.02);
 
-    // Generate custom Order ID
-    const newOrderId = `#RN-${new mongoose.Types.ObjectId()}`;
-
     const order = await Order.create({
-      _id: newOrderId,
       userId,
       items,
       amount,
@@ -302,24 +294,12 @@ export const getUserOrders = async (req, res) => {
       $or: [{ paymentType: "COD" }, { isPaid: true }],
     })
       .populate("items.product address")
-      .sort({ createdAt: -1 })
-      .lean();
-
-    // Explicitly handle potentially missing _id or serialization issues
-    const validOrders = orders.map(order => {
-      // console.log("Processing Order:", order._id); 
-      return {
-        ...order,
-        _id: order._id || order.id || "MISSING_ID", // Fallback
-      };
-    });
-
-    console.log("Fetched Orders (First 1):", JSON.stringify(validOrders[0], null, 2));
+      .sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
       message: "Orders fetched successfully",
-      orders: validOrders,
+      orders,
     });
   } catch (error) {
     res.json({ success: false, message: error.message });
@@ -332,20 +312,11 @@ export const getAllOrders = async (req, res) => {
       $or: [{ paymentType: "COD" }, { isPaid: true }],
     })
       .populate("items.product address")
-      .sort({ createdAt: -1 })
-      .lean();
-
-    // Explicitly handle potentially missing _id or serialization issues
-    const validOrders = orders.map(order => {
-      return {
-        ...order,
-        _id: order._id || order.id || "MISSING_ID", // Fallback
-      };
-    });
+      .sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
-      orders: validOrders,
+      orders,
     });
   } catch (error) {
     res.json({ success: false, message: error.message });

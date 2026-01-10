@@ -12,7 +12,6 @@ const MyOrders = () => {
       const { data } = await axios.get("/api/order/user");
       if (data.success) {
         setMyOrders(data.orders);
-        console.log("MyOrders Data:", data.orders);
       }
     } catch (error) {
       console.log(error);
