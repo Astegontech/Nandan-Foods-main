@@ -302,7 +302,8 @@ export const getUserOrders = async (req, res) => {
       $or: [{ paymentType: "COD" }, { isPaid: true }],
     })
       .populate("items.product address")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .lean();
     console.log("Fetched Orders:", JSON.stringify(orders, null, 2));
     res.status(200).json({
       success: true,
@@ -320,7 +321,8 @@ export const getAllOrders = async (req, res) => {
       $or: [{ paymentType: "COD" }, { isPaid: true }],
     })
       .populate("items.product address")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .lean();
     res.status(200).json({
       success: true,
       orders,
