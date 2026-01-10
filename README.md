@@ -1,4 +1,4 @@
-# 🌾 Kisan Agritech Solutions (Nandan Foods) - E-Commerce Platform
+# 🌾 AstegonTech Solutions (Nandan Foods) - E-Commerce Platform
 
 ![MERN Stack](https://img.shields.io/badge/MERN-Stack-green) ![License](https://img.shields.io/badge/License-ISC-blue) ![Status](https://img.shields.io/badge/Status-Active_Development-orange)
 
