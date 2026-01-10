@@ -303,6 +303,7 @@ export const getUserOrders = async (req, res) => {
     })
       .populate("items.product address")
       .sort({ createdAt: -1 });
+    console.log("Fetched Orders:", JSON.stringify(orders, null, 2));
     res.status(200).json({
       success: true,
       message: "Orders fetched successfully",
