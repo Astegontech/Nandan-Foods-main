@@ -22,6 +22,10 @@ import EditProduct from "./features/seller/pages/EditProduct";
 import Loading from "./components/ui/Loading";
 import Contact from "./pages/Contact";
 import ProtectedRoute from "./features/auth/components/ProtectedRoute";
+import DeliveryInformation from "./pages/DeliveryInformation";
+import ReturnPolicy from "./pages/ReturnPolicy";
+import PaymentMethods from "./pages/PaymentMethods";
+import TrackOrder from "./pages/TrackOrder";
 
 
 
@@ -42,6 +46,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
+
+          {/* Informational Pages */}
+          <Route path="/delivery-information" element={<DeliveryInformation />} />
+          <Route path="/return-policy" element={<ReturnPolicy />} />
+          <Route path="/payment-methods" element={<PaymentMethods />} />
+          <Route path="/track-order" element={<TrackOrder />} />
+
           <Route path="/loader" element={<Loading />} />
 
           <Route path="/products" element={<AllProducts />} />

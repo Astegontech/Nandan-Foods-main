@@ -5,7 +5,25 @@ import { assets } from "../../../assets/assets";
 const MyOrders = () => {
   const [myOrders, setMyOrders] = useState([]);
   const [expandedOrder, setExpandedOrder] = useState(null);
-  const { currency, axios, user } = useAppContext();
+  const { currency, axios, user, cartItems, setCartItems, navigate } = useAppContext();
+
+  const orderAgain = (order) => {
+    let cartData = structuredClone(cartItems);
+
+    order.items.forEach((item) => {
+      // Construct cart key based on whether weight variants exist
+      const cartKey = item.weight ? `${item.product._id}-${item.weight}` : item.product._id;
+
+      if (cartData[cartKey]) {
+        cartData[cartKey] += item.quantity;
+      } else {
+        cartData[cartKey] = item.quantity;
+      }
+    });
+
+    setCartItems(cartData);
+    navigate("/cart");
+  };
 
   const fetchMyOrders = async () => {
     try {
@@ -122,7 +140,7 @@ const MyOrders = () => {
                       <div className="space-y-8">
                         <div>
                           <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Delivery & Payment</h3>
-                          <div className="grid grid-cols-2 gap-6 text-sm">
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 text-sm">
                             <div>
                               <p className="text-gray-500 mb-1">Payment Method</p>
                               <p className="font-medium text-gray-900">{order.paymentMethod === 'Stripe' ? 'Card Payment' : 'Cash on Delivery'}</p>
@@ -132,6 +150,14 @@ const MyOrders = () => {
                               <p className={`font-medium ${order.payment ? 'text-green-600' : 'text-orange-500'}`}>
                                 {order.payment ? 'Paid' : 'Pending'}
                               </p>
+                            </div>
+                            <div className="flex items-end">
+                              <button
+                                onClick={() => orderAgain(order)}
+                                className="text-primary border border-primary px-4 py-1.5 rounded hover:bg-primary hover:text-white transition-colors text-xs uppercase font-semibold"
+                              >
+                                Order Again
+                              </button>
                             </div>
                           </div>
                         </div>
