@@ -165,7 +165,7 @@ export const footerLinks = [
     title: "Need help?",
     links: [
       { text: "Delivery Information", url: "/delivery-information" },
-      { text: "Return & Refund Policy", url: "/return-policy" },
+      { text: "Cancellation & Refund Policy", url: "/return-policy" },
       { text: "Payment Methods", url: "/payment-methods" },
       { text: "Track your Order", url: "/track-order" },
       { text: "Contact Us", url: "/contact" },
@@ -174,7 +174,10 @@ export const footerLinks = [
   {
     title: "Follow Us",
     links: [
-      { text: "Instagram", url: "https://www.instagram.com/nandan.foods?igsh=MTJ1dm9id2szaWhnZw==" },
+      {
+        text: "Instagram",
+        url: "https://www.instagram.com/nandan.foods?igsh=MTJ1dm9id2szaWhnZw==",
+      },
       // { text: "Twitter", url: "#" },
       // { text: "Facebook", url: "#" },
       // { text: "YouTube", url: "#" },
