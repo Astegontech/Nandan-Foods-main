@@ -8,8 +8,9 @@ const Footer = () => {
         <div>
           <img className="w-34 md:w-32" src={assets.logo} alt="logo" />
           <p className="max-w-[410px] mt-6">
-            Bringing you the authentic taste of Uttar Karnataka. From traditional sweets
-            to pickles, every item is prepared with care, purity, and time-honored recipes.
+            Bringing you the authentic taste of Uttar Karnataka. From
+            traditional sweets to pickles, every item is prepared with care,
+            purity, and time-honored recipes.
           </p>
         </div>
         <div className="flex flex-wrap justify-between w-full md:w-[45%] gap-5">
@@ -31,9 +32,13 @@ const Footer = () => {
           ))}
         </div>
       </div>
-      <p className="py-4 text-center text-sm md:text-base text-gray-500/80">
-        Made with AstegonTech Copyright {new Date().getFullYear()} © Nandan Foods All Right Reserved.
-      </p>
+      <footer className="w-full">
+        <p className="py-4 text-center text-sm md:text-base text-black">
+          Made by{" "}
+          <span className="text-fuchsia-600 font-semibold">AstegonTech</span> ©{" "}
+          {new Date().getFullYear()} Nandan Foods. All Rights Reserved.
+        </p>
+      </footer>
     </div>
   );
 };

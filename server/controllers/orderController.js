@@ -188,6 +188,7 @@ export const updateStatus = async (req, res) => {
 
 export const createRazorpayOrder = async (req, res) => {
   try {
+    console.log("createRazorpayOrder called", { userId: req.userId, body: req.body });
     const userId = req.userId;
     const { address } = req.body;
     if (!address) {
