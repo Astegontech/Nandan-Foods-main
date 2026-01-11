@@ -19,13 +19,13 @@ const PaymentMethods = () => {
 
           <section>
             <h2 className="text-xl font-semibold mb-3 text-secondary">
-              Online Payments (Razorpay)
+              Online Payments
             </h2>
             <p>
               We accept all major credit and debit cards, UPI and Net Banking
-              via our secure payment partner, <strong>Razorpay</strong>. Your
-              payment information is encrypted and processed securely. We do not
-              store your card details.
+              via our secure payment partner. Your payment information is
+              encrypted and processed securely. We do not store your card
+              details.
             </p>
           </section>
 
