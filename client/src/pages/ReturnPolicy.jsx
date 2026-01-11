@@ -8,14 +8,14 @@ const ReturnPolicy = () => {
                 <h1 className="text-3xl font-bold mb-8 text-center text-primary">Return & Refund Policy</h1>
 
                 <div className="space-y-6 text-gray-700">
-                    <section>
+                    {/* <section>
                         <h2 className="text-xl font-semibold mb-3 text-secondary">Returns</h2>
                         <p>
                             We have a "no questions asked" return policy for damaged or defective items.
                             If you receive a damaged product, please report it to us within 24 hours of delivery.
                             Due to the perishable nature of food products, we cannot accept returns for reasons other than damage or quality issues.
                         </p>
-                    </section>
+                    </section> */}
 
                     <section>
                         <h2 className="text-xl font-semibold mb-3 text-secondary">Refunds</h2>
@@ -29,7 +29,7 @@ const ReturnPolicy = () => {
                     <section>
                         <h2 className="text-xl font-semibold mb-3 text-secondary">Cancellations</h2>
                         <p>
-                            You can cancel your order within 1 hour of placing it. Once the order has been processed or shipped,
+                            You can cancel your order within <strong>6 hour</strong> of placing it. Once the order has been processed or shipped,
                             it cannot be cancelled. To cancel an order, please visit the "My Orders" section or contact our support team.
                         </p>
                     </section>
