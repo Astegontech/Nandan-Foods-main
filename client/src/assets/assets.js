@@ -174,7 +174,7 @@ export const footerLinks = [
   {
     title: "Follow Us",
     links: [
-      { text: "Instagram", url: "#" },
+      { text: "Instagram", url: "https://www.instagram.com/nandan.foods?igsh=MTJ1dm9id2szaWhnZw==" },
       // { text: "Twitter", url: "#" },
       // { text: "Facebook", url: "#" },
       // { text: "YouTube", url: "#" },
