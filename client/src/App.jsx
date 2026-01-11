@@ -26,6 +26,7 @@ import DeliveryInformation from "./pages/DeliveryInformation";
 import ReturnPolicy from "./pages/ReturnPolicy";
 import PaymentMethods from "./pages/PaymentMethods";
 import TrackOrder from "./pages/TrackOrder";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 
 
@@ -52,6 +53,7 @@ function App() {
           <Route path="/return-policy" element={<ReturnPolicy />} />
           <Route path="/payment-methods" element={<PaymentMethods />} />
           <Route path="/track-order" element={<TrackOrder />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
           <Route path="/loader" element={<Loading />} />
 
