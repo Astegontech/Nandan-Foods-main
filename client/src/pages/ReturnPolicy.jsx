@@ -29,8 +29,8 @@ const ReturnPolicy = () => {
                     <section>
                         <h2 className="text-xl font-semibold mb-3 text-secondary">Cancellations</h2>
                         <p>
-                            You can cancel your order within <strong>6 hours</strong> of placing it. IF THE USER WANTS TO CANCEL THE ORDER, HE/SHE NEEDS TO CONTACT THE SELLER BY THE CONTACT PAGE. Once the order has been processed or shipped,
-                            it cannot be cancelled.
+                            You can cancel your order within 6 hour of placing it. Once the order has been processed or shipped,
+                            it cannot be cancelled. To cancel an order, please visit the "My Orders" section or contact our support team.
                         </p>
                     </section>
 
