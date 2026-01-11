@@ -44,6 +44,14 @@ const AddAddress = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+
+    // Phone number validation
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (!phoneRegex.test(address.phone)) {
+      toast.error("Please enter a valid phone number");
+      return;
+    }
+
     try {
       if (editAddress) {
         const { data } = await axios.put(`/api/address/update/${editAddress._id}`, {
