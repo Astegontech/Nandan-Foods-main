@@ -50,6 +50,7 @@ const Navbar = () => {
       {/* Desktop Menu */}
       <div className="hidden sm:flex items-center gap-8">
         <NavLink to="/">Home</NavLink>
+        <NavLink to="/about">About Us</NavLink>
         <NavLink to="/products">All Product</NavLink>
         <NavLink to="/contact">Contact</NavLink>
 
@@ -129,6 +130,9 @@ const Navbar = () => {
         >
           <NavLink to="/" onClick={() => setOpen(false)}>
             Home
+          </NavLink>
+          <NavLink to="/about" onClick={() => setOpen(false)}>
+            About Us
           </NavLink>
           <NavLink to="/products" onClick={() => setOpen(false)}>
             All Products

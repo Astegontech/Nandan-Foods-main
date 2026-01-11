@@ -1,8 +1,6 @@
 import React from "react";
 import BottomBanner from "../components/ui/BottomBanner";
-
-// Placeholder founder image
-const founderImg = "https://via.placeholder.com/500x500?text=Founder+Image";
+import { assets } from "../assets/assets";
 
 const AboutUs = () => {
   return (
@@ -23,7 +21,7 @@ const AboutUs = () => {
         <section className="flex flex-col md:flex-row items-center gap-10 mb-16">
           <div className="md:w-1/2 text-center md:text-left">
             <img
-              src={founderImg}
+              src={assets.founder_img}
               alt="Founder Nirmala V Shettar"
               className="w-80 h-80 object-cover rounded-full mx-auto md:mx-0 shadow-lg hover:scale-105 transition-transform duration-300"
               loading="lazy"

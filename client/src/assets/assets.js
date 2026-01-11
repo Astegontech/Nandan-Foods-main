@@ -29,6 +29,7 @@ import bottom_banner_image from "./bottom_banner_image.png";
 import bottom_banner_image_sm from "./bottom_banner_image_sm.png";
 import add_address_iamge from "./add_address_image.svg";
 import order_sound from "./order_sound.mp3";
+import founder_img from "./founder_img.png";
 import sweets_circle from "./sweets_circle.png";
 // import meals_circle from "./meals_circle.png";
 import chutney_circle from "./chutney_circle.png";
@@ -39,8 +40,6 @@ import snacks_circle from "./snacks_circle.png";
 // import pickles_category from "./pickles_category.jpg"; // Keeping if needed
 // import meals_category from "./meals_category.jpg"; // Keeping
 // import sweets from "./sweets.jpg"; // Keeping
-
-// ... (other imports) ...
 
 export const categories = [
   {
@@ -149,6 +148,7 @@ export const assets = {
   add_address_iamge,
   box_icon,
   order_sound,
+  founder_img,
 };
 
 export const footerLinks = [
