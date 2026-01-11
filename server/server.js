@@ -17,7 +17,7 @@ await connectDB();
 await connectCloudinary();
 
 const allowedOrigins = [
-  "http://nandanfoods.store"
+  "https://nandanfoods.store"
 ];
 
 const corsOptions = {
