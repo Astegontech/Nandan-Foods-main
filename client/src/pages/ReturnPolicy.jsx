@@ -32,17 +32,13 @@ const ReturnPolicy = () => {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-xl font-semibold mb-3 text-secondary">
-              Cancellations
-            </h2>
-            <p>
-              You can cancel your order within <strong>6 hour</strong> of
-              placing it. Once the order has been processed or shipped, it
-              cannot be cancelled. To cancel an order, please visit the "My
-              Orders" section or contact our support team.
-            </p>
-          </section>
+                    <section>
+                        <h2 className="text-xl font-semibold mb-3 text-secondary">Cancellations</h2>
+                        <p>
+                            You can cancel your order within <strong>6 hour</strong> of placing it. Once the order has been processed or shipped,
+                            it cannot be cancelled. To cancel an order, please visit the "My Orders" section or contact our support team.
+                        </p>
+                    </section>
 
           <section>
             <h2 className="text-xl font-semibold mb-3 text-secondary">

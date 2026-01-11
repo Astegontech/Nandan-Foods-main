@@ -93,7 +93,7 @@ const MyOrders = () => {
                   <div className="col-span-1 md:col-span-2 mt-1 md:mt-0">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border
                                         ${order.status === 'Delivered' ? 'bg-green-50 text-green-700 border-green-100' :
-                        order.status === 'Cancelled' ? 'bg-red-50 text-red-700 border-red-100' :
+                        order.status === 'Canceled' ? 'bg-red-50 text-red-700 border-red-100' :
                           'bg-blue-50 text-blue-700 border-blue-100'
                       }`}>
                       {order.status}
@@ -162,20 +162,22 @@ const MyOrders = () => {
                           </div>
                         </div>
 
-                        <div>
-                          <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Timeline</h3>
-                          <div className="flex items-center gap-4 text-xs max-w-sm">
-                            <div className={`flex-1 h-3 rounded-full ${['Order Placed', 'Packing', 'Shipped', 'Out for Delivery', 'Out for delivery', 'Delivered'].indexOf(order.status) >= 0 ? 'bg-primary' : 'bg-gray-200'}`}></div>
-                            <div className={`flex-1 h-3 rounded-full ${['Packing', 'Shipped', 'Out for Delivery', 'Out for delivery', 'Delivered'].indexOf(order.status) >= 0 ? 'bg-primary' : 'bg-gray-200'}`}></div>
-                            <div className={`flex-1 h-3 rounded-full ${['Shipped', 'Out for Delivery', 'Out for delivery', 'Delivered'].indexOf(order.status) >= 0 ? 'bg-primary' : 'bg-gray-200'}`}></div>
-                            <div className={`flex-1 h-3 rounded-full ${['Out for Delivery', 'Out for delivery', 'Delivered'].indexOf(order.status) >= 0 ? 'bg-primary' : 'bg-gray-200'}`}></div>
-                            <div className={`flex-1 h-3 rounded-full ${order.status === 'Delivered' ? 'bg-primary' : 'bg-gray-200'}`}></div>
+                        {order.status !== 'Canceled' && (
+                          <div>
+                            <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Timeline</h3>
+                            <div className="flex items-center gap-4 text-xs max-w-sm">
+                              <div className={`flex-1 h-3 rounded-full ${['Order Placed', 'Packing', 'Shipped', 'Out for Delivery', 'Out for delivery', 'Delivered'].indexOf(order.status) >= 0 ? 'bg-primary' : 'bg-gray-200'}`}></div>
+                              <div className={`flex-1 h-3 rounded-full ${['Packing', 'Shipped', 'Out for Delivery', 'Out for delivery', 'Delivered'].indexOf(order.status) >= 0 ? 'bg-primary' : 'bg-gray-200'}`}></div>
+                              <div className={`flex-1 h-3 rounded-full ${['Shipped', 'Out for Delivery', 'Out for delivery', 'Delivered'].indexOf(order.status) >= 0 ? 'bg-primary' : 'bg-gray-200'}`}></div>
+                              <div className={`flex-1 h-3 rounded-full ${['Out for Delivery', 'Out for delivery', 'Delivered'].indexOf(order.status) >= 0 ? 'bg-primary' : 'bg-gray-200'}`}></div>
+                              <div className={`flex-1 h-3 rounded-full ${order.status === 'Delivered' ? 'bg-primary' : 'bg-gray-200'}`}></div>
+                            </div>
+                            <div className="flex justify-between text-[10px] text-gray-400 mt-2 font-medium uppercase tracking-wider">
+                              <span>Placed</span>
+                              <span>Delivered</span>
+                            </div>
                           </div>
-                          <div className="flex justify-between text-[10px] text-gray-400 mt-2 font-medium uppercase tracking-wider">
-                            <span>Placed</span>
-                            <span>Delivered</span>
-                          </div>
-                        </div>
+                        )}
                       </div>
                     </div>
 

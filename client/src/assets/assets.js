@@ -30,15 +30,15 @@ import bottom_banner_image_sm from "./bottom_banner_image_sm.png";
 import add_address_iamge from "./add_address_image.svg";
 import order_sound from "./order_sound.mp3";
 import sweets_circle from "./sweets_circle.png";
-import meals_circle from "./meals_circle.png";
+// import meals_circle from "./meals_circle.png";
 import chutney_circle from "./chutney_circle.png";
 import pickles_circle from "./pickles_circle.png";
 import snacks_circle from "./snacks_circle.png";
-import chetneys_category from "./chetneys_category.jpg"; // Keeping if needed
-import snacks_category from "./snacks_category.jpg"; // Keeping if needed
-import pickles_category from "./pickles_category.jpg"; // Keeping if needed
-import meals_category from "./meals_category.jpg"; // Keeping
-import sweets from "./sweets.jpg"; // Keeping
+// import chetneys_category from "./chetneys_category.jpg"; // Keeping if needed
+// import snacks_category from "./snacks_category.jpg"; // Keeping if needed
+// import pickles_category from "./pickles_category.jpg"; // Keeping if needed
+// import meals_category from "./meals_category.jpg"; // Keeping
+// import sweets from "./sweets.jpg"; // Keeping
 
 // ... (other imports) ...
 
