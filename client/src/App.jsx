@@ -1,4 +1,10 @@
-import { Route, Routes, useLocation, Navigate, useNavigate } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  useLocation,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 import React, { useEffect } from "react";
 
 import Home from "./pages/Home";
@@ -27,8 +33,7 @@ import ReturnPolicy from "./pages/ReturnPolicy";
 import PaymentMethods from "./pages/PaymentMethods";
 import TrackOrder from "./pages/TrackOrder";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
-
-
+import AboutUs from "./pages/AboutUs";
 
 function App() {
   const isSellerPath = useLocation().pathname.includes("seller");
@@ -47,9 +52,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={<AboutUs />} />
 
           {/* Informational Pages */}
-          <Route path="/delivery-information" element={<DeliveryInformation />} />
+          <Route
+            path="/delivery-information"
+            element={<DeliveryInformation />}
+          />
           <Route path="/return-policy" element={<ReturnPolicy />} />
           <Route path="/payment-methods" element={<PaymentMethods />} />
           <Route path="/track-order" element={<TrackOrder />} />
