@@ -143,7 +143,7 @@ const MyOrders = () => {
                           <div className="grid grid-cols-2 md:grid-cols-3 gap-6 text-sm">
                             <div>
                               <p className="text-gray-500 mb-1">Payment Method</p>
-                              <p className="font-medium text-gray-900">{order.paymentMethod === 'Stripe' ? 'Card Payment' : 'Cash on Delivery'}</p>
+                              <p className="font-medium text-gray-900">{order.paymentMethod === 'Razorpay' ? 'Card Payment' : 'Cash on Delivery'}</p>
                             </div>
                             <div>
                               <p className="text-gray-500 mb-1">Payment Status</p>
