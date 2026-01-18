@@ -9,67 +9,90 @@ const DeliveryInformation = () => {
           Delivery Information
         </h1>
 
-        <div className="space-y-6 text-gray-700">
+        <div className="space-y-8 text-gray-700 leading-relaxed">
+          {/* Shipping Policy */}
           <section>
             <h2 className="text-xl font-semibold mb-3 text-secondary">
               Shipping Policy
             </h2>
             <p>
-              At Nandan Foods, we strive to deliver your orders as quickly and
-              efficiently as possible. We currently ship to select locations
-              across India. All orders are packed with care to ensure freshness
-              and quality upon arrival.
+              At <strong>Nandan Foods</strong>, we currently deliver our products
+              exclusively within the state of <strong>Karnataka</strong>. All
+              orders are hygienically packed and carefully handled to ensure
+              freshness, quality, and safety until delivery.
+            </p>
+            <p className="mt-2">
+              We do not deliver outside Karnataka at this time. This helps us
+              maintain better quality control and reliable service for our
+              customers.
             </p>
           </section>
 
+          {/* Delivery Timelines */}
           <section>
             <h2 className="text-xl font-semibold mb-3 text-secondary">
               Delivery Timelines
             </h2>
+            <p className="mb-3">
+              Orders placed with Nandan Foods are delivered within approximately
+              <strong> 7 business days</strong> from the date of order
+              confirmation.
+            </p>
             <ul className="list-disc pl-5 space-y-2">
               <li>
-                <strong>Local Orders (within city):</strong> Delivered within
-                24-48 hours.
+                <strong>Delivery Area:</strong> All districts within Karnataka
               </li>
               <li>
-                <strong>Statewide Orders:</strong> Delivered within 2-4 business
-                days.
+                <strong>Estimated Delivery Time:</strong> Around 7 business days
               </li>
               <li>
-                <strong>National Orders:</strong> Delivered within 5-7 business
-                days depending on the location.
+                <strong>Order Processing:</strong> 1–2 working days before
+                dispatch
               </li>
             </ul>
-            <p className="mt-2 text-sm text-gray-500">
-              *Please note that delivery times may vary during festivals and
-              holidays.
+            <p className="mt-3 text-sm text-gray-500">
+              *Delivery timelines may vary slightly due to location, weather
+              conditions, public holidays, or unforeseen logistical delays.
             </p>
           </section>
 
+          {/* Shipping Charges */}
           <section>
             <h2 className="text-xl font-semibold mb-3 text-secondary">
               Shipping Charges
             </h2>
             <p>
-              Shipping charges are calculated based on the weight of the order
-              and the delivery location. You can view the final shipping cost at
-              the checkout page before making a payment. Free shipping is
-              available on orders above ₹999.
+              Shipping charges are calculated based on the total order weight and
+              delivery destination within Karnataka. The final shipping cost
+              will be displayed at checkout before completing the payment.
+            </p>
+            <p className="mt-2 font-medium text-green-600">
+              🎉 Free shipping is available on orders above ₹999.
             </p>
           </section>
 
+          {/* Order Tracking */}
           <section>
             <h2 className="text-xl font-semibold mb-3 text-secondary">
               Order Tracking
             </h2>
             <p>
-              Once your order is shipped, you will receive a tracking link via
-              email/SMS. You can also track your order status in the "My Orders"
-              section of your account.
+              Once your order has been dispatched, you can track its status
+              directly from the <strong>“My Orders”</strong> section in your
+              account.
+            </p>
+            <p className="mt-2">
+              Order updates such as <em>Processing</em>, <em>Dispatched</em>, and
+              <em>Delivered</em> will be visible within your account dashboard.
+            </p>
+            <p className="mt-2 text-sm text-gray-500">
+              *Currently, order tracking updates are available only within your
+              account.
             </p>
           </section>
         </div>
       </div>
+
       <BottomBanner />
     </div>
   );
