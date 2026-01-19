@@ -58,6 +58,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
+  console.log("Root route hit");
   res.send("Welcome to the server!");
 });
 app.use("/api/user", userRouter);

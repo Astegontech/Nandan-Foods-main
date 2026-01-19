@@ -12,9 +12,11 @@ const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString()
 const sendToken = (user, statusCode, res, message) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
-  const isProduction = process.env.NODE_ENV === 'production' || process.env.RENDER === 'true';
+  // Force production settings unless explicitly 'development'
+  // This ensures 'SameSite: None; Secure' is used on Render.
+  const isProduction = process.env.NODE_ENV !== 'development';
 
-  console.log("Setting Token - Env:", process.env.NODE_ENV, "Render:", process.env.RENDER, "IsProd:", isProduction);
+  console.log("Setting Token - Env:", process.env.NODE_ENV, "Render:", process.env.RENDER, "IsProd (Forced):", isProduction);
 
   res.cookie('token', token, {
     httpOnly: true,
