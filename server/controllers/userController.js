@@ -24,7 +24,7 @@ const sendToken = (user, statusCode, res, message) => {
     sameSite: isProduction ? 'none' : 'lax',
     maxAge: 7 * 24 * 60 * 60 * 1000
   });
-  res.json({ success: true, user: { name: user.name, email: user.email, phone: user.phone, cartItems: user.cartItems }, message });
+  res.json({ success: true, token, user: { name: user.name, email: user.email, phone: user.phone, cartItems: user.cartItems }, message });
 };
 
 // 1. SIGNUP (Email + Password) -> Send OTP

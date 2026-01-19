@@ -33,6 +33,30 @@ export const AppContextProvider = ({ children }) => {
     }
   };
 
+  // Token Support
+  const [token, setTokenState] = useState(localStorage.getItem('token') || "");
+
+  const setToken = (newToken) => {
+    setTokenState(newToken);
+    if (newToken) {
+      localStorage.setItem('token', newToken);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+    } else {
+      localStorage.removeItem('token');
+      delete axios.defaults.headers.common['Authorization'];
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+    fetchUser();
+    fetchSeller();
+    fetchProducts();
+  }, [token]);
+
+
   const [isAuthLoading, setIsAuthLoading] = useState(true);
 
   const fetchUser = async () => {
@@ -43,16 +67,17 @@ export const AppContextProvider = ({ children }) => {
         setCartItems(data.user.cartItems || {});
       } else {
         console.log("Fetch User Success: false", data);
-        toast.error(data.message || "Session expired (Unauthorized)");
+        // Warning: This might trigger if token is invalid, which is fine.
+        // But if we just loaded the page and token is valid, it should be success.
         setUser(null);
       }
     } catch (error) {
       console.error("Fetch User Error:", error);
       if (error.response) {
-        console.error("Error Response:", error.response.data);
-        toast.error(`Auth Error: ${error.response.status} - ${error.response.data.message}`);
-      } else {
-        toast.error(`Auth Error: ${error.message}`);
+        // 401 is expected if token is missing/invalid
+        if (error.response.status !== 401) {
+          toast.error(`Auth Error: ${error.response.status} - ${error.message}`);
+        }
       }
       setUser(null);
     } finally {
@@ -149,11 +174,7 @@ export const AppContextProvider = ({ children }) => {
     return totalAmount;
   };
 
-  useEffect(() => {
-    fetchUser();
-    fetchSeller();
-    fetchProducts();
-  }, []);
+  // Removed original useEffect calling fetches - now handled by dependency on [token]
 
   useEffect(() => {
     const updateCart = async () => {
@@ -195,6 +216,8 @@ export const AppContextProvider = ({ children }) => {
     setSearchQuery,
     axios,
     fetchProducts,
+    setToken,
+    token,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

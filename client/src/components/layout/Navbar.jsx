@@ -16,6 +16,7 @@ const Navbar = () => {
     getCartCount,
     setCartItems,
     axios,
+    setToken,
   } = useAppContext();
 
   const logout = async () => {
@@ -23,6 +24,7 @@ const Navbar = () => {
       const { data } = await axios.post("/api/user/logout");
       if (data.success) {
         toast.success(data.message);
+        setToken(null);
         setUser(null);
         setCartItems({});
         navigate("/");

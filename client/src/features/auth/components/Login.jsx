@@ -5,7 +5,7 @@ import { useAppContext } from "../../../context/AppContext";
 
 const Login = () => {
   // Global States
-  const { setshowUserLogin, navigate, axios, setUser } = useAppContext();
+  const { setshowUserLogin, navigate, axios, setUser, setToken } = useAppContext();
 
   // Mode: 'LOGIN', 'SIGNUP', 'VERIFY_EMAIL', 'FORGOT_PASS', 'VERIFY_RESET', 'RESET_PASS'
   const [mode, setMode] = useState("LOGIN");
@@ -29,6 +29,7 @@ const Login = () => {
     try {
       const { data } = await axios.post("/api/user/login", { email, password });
       if (data.success) {
+        setToken(data.token);
         toast.success("Logged in successfully");
         setUser(data.user);
         setshowUserLogin(false);

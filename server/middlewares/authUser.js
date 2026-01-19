@@ -1,7 +1,14 @@
 import jwt from "jsonwebtoken";
 
 const authUser = (req, res, next) => {
-  const { token } = req.cookies;
+  let { token } = req.cookies;
+
+  // Check Authorization header (Bearer <token>)
+  if (!token && req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    token = req.headers.authorization.split(' ')[1];
+    console.log("Auth Middleware - Found token in Header");
+  }
+
   console.log("Auth Middleware - Cookies:", req.cookies, "Token:", token ? "Present" : "Missing");
 
   if (!token) {
