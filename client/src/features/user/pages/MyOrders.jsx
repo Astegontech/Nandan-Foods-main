@@ -92,7 +92,7 @@ const MyOrders = () => {
                   </div>
                   <div className="col-span-1 md:col-span-2 mt-1 md:mt-0">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border
-                                        ${order.status === 'Delivered' ? 'bg-green-50 text-green-700 border-green-100' :
+                                        ${order.status === 'Delivered' || order.status === 'Successfully Refunded' ? 'bg-green-50 text-green-700 border-green-100' :
                         order.status === 'Canceled' ? 'bg-red-50 text-red-700 border-red-100' :
                           'bg-blue-50 text-blue-700 border-blue-100'
                       }`}>
@@ -147,7 +147,9 @@ const MyOrders = () => {
                             </div>
                             <div>
                               <p className="text-gray-500 mb-1">Payment Status</p>
-                              {order.status === 'Canceled' && order.payment && order.paymentMethod === 'Razorpay' ? (
+                              {order.status === 'Successfully Refunded' ? (
+                                <p className="font-medium text-green-600">Refunded</p>
+                              ) : order.status === 'Canceled' && order.payment && order.paymentMethod === 'Razorpay' ? (
                                 <p className="font-medium text-green-600">Refund in progress</p>
                               ) : (
                                 <p className={`font-medium ${order.payment ? 'text-green-600' : 'text-orange-500'}`}>

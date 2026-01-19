@@ -156,6 +156,7 @@ const Orders = () => {
               <option value="Out for Delivery">Out for Delivery</option>
               <option value="Delivered">Delivered</option>
               <option value="Canceled">Canceled</option>
+              <option value="Successfully Refunded">Successfully Refunded</option>
             </select>
           </div>
         ))}
