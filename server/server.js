@@ -54,6 +54,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use((req, res, next) => {
+  console.log(`[Request] ${req.method} ${req.url} | Origin: ${req.headers.origin} | IP: ${req.ip}`);
+  console.log(`[Cookies]`, req.cookies);
+  console.log(`[Security] Protocol: ${req.protocol} | Secure: ${req.secure}`);
   next();
 });
 
