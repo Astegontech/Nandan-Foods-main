@@ -150,6 +150,11 @@ const MyOrders = () => {
                               <p className={`font-medium ${order.payment ? 'text-green-600' : 'text-orange-500'}`}>
                                 {order.payment ? 'Paid' : 'Pending'}
                               </p>
+                              {order.status === 'Canceled' && (
+                                <p className={`text-xs mt-1 font-medium ${order.payment && order.paymentMethod === 'Razorpay' ? 'text-green-600' : 'text-gray-400'}`}>
+                                  {order.payment && order.paymentMethod === 'Razorpay' ? 'Refund in progress' : ''}
+                                </p>
+                              )}
                             </div>
                             <div className="flex items-end">
                               <button
