@@ -41,6 +41,10 @@ export const AppContextProvider = ({ children }) => {
       if (data.success) {
         setUser(data.user);
         setCartItems(data.user.cartItems || {});
+      } else {
+        console.log("Fetch User Success: false", data);
+        toast.error(data.message || "Session expired (Unauthorized)");
+        setUser(null);
       }
     } catch (error) {
       console.error("Fetch User Error:", error);
