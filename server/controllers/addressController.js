@@ -1,11 +1,9 @@
 import Address from "../models/Address.js";
-import jwt from "jsonwebtoken";
+
 
 export const addAddress = async (req, res) => {
   try {
-    const { token } = req.cookies;
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.id;
+    const userId = req.userId;
     const { address } = req.body;
     await Address.create({ ...address, userId });
     res.json({ success: true, message: "Address added successfully" });
@@ -17,9 +15,7 @@ export const addAddress = async (req, res) => {
 
 export const getAddress = async (req, res) => {
   try {
-    const { token } = req.cookies;
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.id;
+    const userId = req.userId;
     const addresses = await Address.find({ userId });
     res.json({ success: true, addresses });
   } catch (error) {
@@ -30,9 +26,7 @@ export const getAddress = async (req, res) => {
 
 export const updateAddress = async (req, res) => {
   try {
-    const { token } = req.cookies;
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.id;
+    const userId = req.userId;
     const { id } = req.params;
     const { address } = req.body;
 
@@ -55,9 +49,7 @@ export const updateAddress = async (req, res) => {
 
 export const deleteAddress = async (req, res) => {
   try {
-    const { token } = req.cookies;
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.id;
+    const userId = req.userId;
     const { id } = req.params;
 
     const deletedAddress = await Address.findOneAndDelete({ _id: id, userId });
