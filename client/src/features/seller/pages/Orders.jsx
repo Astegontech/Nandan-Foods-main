@@ -119,31 +119,36 @@ const Orders = () => {
                   <span className="bg-white border text-gray-800 font-mono font-bold px-2 py-0.5 rounded text-sm">#{order._id.slice(-6)}...</span>
                   <span className="text-sm font-semibold text-gray-700">{order.address?.firstname} {order.address?.lastname}</span>
                 </div>
-                <p className="text-xs text-gray-500 pl-9">{new Date(order.createdAt).toLocaleString()} • {order.items.length} Items</p>
+                <p className="text-xs text-gray-500 pl-9">
+                  {new Date(order.createdAt).toLocaleDateString("en-US", { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })} • <span className="text-gray-400">{order.items.length} Items</span>
+                </p>
               </div>
 
               <div className="mt-3 md:mt-0 flex items-center gap-4" onClick={(e) => e.stopPropagation()}>
                 <p className="font-bold text-gray-900">{currency}{order.amount}</p>
 
                 {order.status === "Order Placed" && (
-                  <span className="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-bold animate-pulse">New</span>
+                  <span className="bg-red-100/60 text-red-600 border border-red-100 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider animate-pulse">New</span>
                 )}
 
                 <select
                   onChange={(event) => statusHandler(event, order._id || "")}
                   value={order.status}
-                  className={`p-1.5 rounded-md border font-medium text-xs focus:outline-none focus:ring-2 transition-all cursor-pointer shadow-sm
-                      ${order.status === 'Order Placed' ? 'bg-white text-red-600 border-red-200 ring-red-100' :
-                      order.status === 'Delivered' || order.status === 'Successfully Refunded' ? 'bg-white text-emerald-600 border-emerald-200 ring-emerald-100' :
-                        'bg-white text-gray-700 border-gray-300 ring-gray-100'}`}
+                  className={`px-3 py-1.5 rounded-full border text-xs font-bold uppercase tracking-wider focus:outline-none focus:ring-2 focus:ring-opacity-50 transition-all cursor-pointer shadow-sm
+                      ${order.status === 'Order Placed'
+                      ? 'bg-red-50 text-red-700 border-red-200 focus:ring-red-200'
+                      : order.status === 'Delivered' || order.status === 'Successfully Refunded'
+                        ? 'bg-emerald-50 text-emerald-700 border-emerald-200 focus:ring-emerald-200'
+                        : 'bg-white text-gray-700 border-gray-300 focus:ring-gray-200'
+                    }`}
                 >
-                  <option value="Order Placed">Order Placed</option>
-                  <option value="Packing">Packing</option>
-                  <option value="Shipped">Shipped</option>
-                  <option value="Out for Delivery">Out for Delivery</option>
-                  <option value="Delivered">Delivered</option>
-                  <option value="Canceled">Canceled</option>
-                  <option value="Successfully Refunded">Refunded</option>
+                  <option value="Order Placed" className="text-gray-700 bg-white">Order Placed</option>
+                  <option value="Packing" className="text-gray-700 bg-white">Packing</option>
+                  <option value="Shipped" className="text-gray-700 bg-white">Shipped</option>
+                  <option value="Out for Delivery" className="text-gray-700 bg-white">Out for Delivery</option>
+                  <option value="Delivered" className="text-emerald-600 font-bold bg-white">Delivered</option>
+                  <option value="Canceled" className="text-red-500 bg-white">Canceled</option>
+                  <option value="Successfully Refunded" className="text-emerald-600 font-bold bg-white">Refunded</option>
                 </select>
               </div>
             </div>
@@ -160,9 +165,9 @@ const Orders = () => {
                   </h4>
                   <div className="space-y-4">
                     {order.items.map((item, i) => (
-                      <div key={i} className="flex gap-4 items-start p-3 hover:bg-gray-50 rounded-lg border border-transparent hover:border-gray-100 transition-colors">
+                      <div key={i} className="flex gap-4 items-start p-3 bg-white border border-gray-100 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
                         <img
-                          className="w-16 h-16 object-cover border rounded-md"
+                          className="w-16 h-16 object-cover border border-gray-200 rounded-md shadow-sm"
                           src={item.product?.image?.[0] || assets.box_icon}
                           alt={item.product?.name}
                         />
@@ -172,11 +177,11 @@ const Orders = () => {
                           </p>
                           <div className="flex items-center gap-3 mt-2">
                             {item.weight && (
-                              <span className="text-xs font-medium text-gray-600 bg-gray-100 px-2 py-0.5 rounded">
+                              <span className="text-xs font-semibold text-gray-600 bg-gray-50 border border-gray-200 px-2 py-0.5 rounded">
                                 {item.weight}
                               </span>
                             )}
-                            <div className="text-xs text-gray-500">
+                            <div className="text-xs text-gray-500 font-medium">
                               Qty: <span className="font-bold text-gray-900">{item.quantity}</span>
                             </div>
                           </div>
