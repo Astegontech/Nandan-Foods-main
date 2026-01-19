@@ -11,10 +11,15 @@ const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString()
 // Helper: Send Token (Login Success)
 const sendToken = (user, statusCode, res, message) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+
+  const isProduction = process.env.NODE_ENV === 'production' || process.env.RENDER === 'true';
+
+  console.log("Setting Token - Env:", process.env.NODE_ENV, "Render:", process.env.RENDER, "IsProd:", isProduction);
+
   res.cookie('token', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production' || process.env.RENDER === 'true',
-    sameSite: (process.env.NODE_ENV === 'production' || process.env.RENDER === 'true') ? 'none' : 'lax',
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
     maxAge: 7 * 24 * 60 * 60 * 1000
   });
   res.json({ success: true, user: { name: user.name, email: user.email, phone: user.phone, cartItems: user.cartItems }, message });

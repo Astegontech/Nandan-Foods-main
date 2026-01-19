@@ -16,6 +16,9 @@ const port = process.env.PORT || 4000;
 await connectDB();
 await connectCloudinary();
 
+console.log("Server Startup - NODE_ENV:", process.env.NODE_ENV, "RENDER:", process.env.RENDER);
+
+
 const allowedOrigins = [
   "https://nandanfoods.store",
   "https://www.nandanfoods.store"
