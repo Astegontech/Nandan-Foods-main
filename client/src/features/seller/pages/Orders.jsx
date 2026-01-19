@@ -104,7 +104,7 @@ const Orders = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </div>
-                  <span className="bg-white border text-gray-800 font-mono font-bold px-2 py-0.5 rounded text-sm">#{order._id.slice(-6)}...</span>
+                  <span className="bg-white border text-gray-800 font-mono font-bold px-2 py-0.5 rounded text-sm">#{order._id}</span>
                   <span className="text-sm font-semibold text-gray-700">{order.address?.firstname} {order.address?.lastname}</span>
                 </div>
                 <p className="text-xs text-gray-500 pl-9">
