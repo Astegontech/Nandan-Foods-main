@@ -43,6 +43,13 @@ export const AppContextProvider = ({ children }) => {
         setCartItems(data.user.cartItems || {});
       }
     } catch (error) {
+      console.error("Fetch User Error:", error);
+      if (error.response) {
+        console.error("Error Response:", error.response.data);
+        toast.error(`Auth Error: ${error.response.status} - ${error.response.data.message}`);
+      } else {
+        toast.error(`Auth Error: ${error.message}`);
+      }
       setUser(null);
     } finally {
       setIsAuthLoading(false);
