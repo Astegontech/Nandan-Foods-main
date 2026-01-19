@@ -28,7 +28,7 @@ const Orders = () => {
 
   const fetchOrders = async () => {
     try {
-      const { data } = await axios.get("/api/order/list");
+      const { data } = await axios.get("/api/order/seller");
       if (data.success) {
         // Sort orders so the newest ones are first
         const sortedOrders = data.orders.reverse();
