@@ -13,8 +13,8 @@ const sendToken = (user, statusCode, res, message) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
   res.cookie('token', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    secure: process.env.NODE_ENV === 'production' || process.env.RENDER === 'true',
+    sameSite: (process.env.NODE_ENV === 'production' || process.env.RENDER === 'true') ? 'none' : 'lax',
     maxAge: 7 * 24 * 60 * 60 * 1000
   });
   res.json({ success: true, user: { name: user.name, email: user.email, phone: user.phone, cartItems: user.cartItems }, message });

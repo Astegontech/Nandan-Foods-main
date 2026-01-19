@@ -1,11 +1,10 @@
 import User from "../models/User.js";
-import jwt from "jsonwebtoken";
+
+
 
 export const UpdateCart = async (req, res) => {
   try {
-    const { token } = req.cookies;
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.id;
+    const userId = req.userId;
 
     const { cartItems } = req.body;
     await User.findByIdAndUpdate(userId, { cartItems });
