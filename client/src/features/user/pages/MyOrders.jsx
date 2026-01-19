@@ -147,12 +147,11 @@ const MyOrders = () => {
                             </div>
                             <div>
                               <p className="text-gray-500 mb-1">Payment Status</p>
-                              <p className={`font-medium ${order.payment ? 'text-green-600' : 'text-orange-500'}`}>
-                                {order.payment ? 'Paid' : 'Pending'}
-                              </p>
-                              {order.status === 'Canceled' && (
-                                <p className={`text-xs mt-1 font-medium ${order.payment && order.paymentMethod === 'Razorpay' ? 'text-green-600' : 'text-gray-400'}`}>
-                                  {order.payment && order.paymentMethod === 'Razorpay' ? 'Refund in progress' : ''}
+                              {order.status === 'Canceled' && order.payment && order.paymentMethod === 'Razorpay' ? (
+                                <p className="font-medium text-green-600">Refund in progress</p>
+                              ) : (
+                                <p className={`font-medium ${order.payment ? 'text-green-600' : 'text-orange-500'}`}>
+                                  {order.payment ? 'Paid' : 'Pending'}
                                 </p>
                               )}
                             </div>
