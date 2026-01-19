@@ -96,68 +96,97 @@ const Orders = () => {
             key={index}
             className="relative flex flex-col md:items-center md:flex-row gap-5 justify-between p-5 max-w-4xl rounded-md border border-gray-300"
           >
-            {order.status === "Order Placed" && (
-              <p className="absolute top-0 right-2 text-red-500 font-medium text-sm">
-                New
-              </p>
-            )}
-            <div className="flex gap-5 max-w-80">
-              <img
-                className="w-12 h-12 object-cover "
-                src={assets.box_icon}
-                alt="boxIcon"
-              />
+            {/* Header: Order ID & Date */}
+            <div className="flex justify-between items-start w-full border-b pb-2 mb-2">
               <div>
-                {order.items.map((item, index) => (
-                  <div key={index} className="flex flex-col ">
-                    <p className="font-medium">
-                      {item.product?.name || "Product Deleted"}{" "}
-                      {item.weight && <span className="text-emerald-600">({item.weight})</span>}{" "}
-                      <span className="text-primary">x {item.quantity}</span>
+                <p className="text-sm font-bold text-gray-700">Order ID: <span className="font-mono text-gray-500">#{order._id}</span></p>
+                <p className="text-xs text-gray-500">{new Date(order.createdAt).toLocaleString()}</p>
+              </div>
+              {order.status === "Order Placed" && (
+                <span className="text-red-500 font-bold text-xs animate-pulse">New Order</span>
+              )}
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-5 justify-between w-full">
+              {/* Left: Items */}
+              <div className="flex-1">
+                <h4 className="text-xs font-bold text-gray-400 uppercase mb-2">Ordered Items</h4>
+                <div className="space-y-3">
+                  {order.items.map((item, i) => (
+                    <div key={i} className="flex gap-3 items-start p-2 bg-gray-50 rounded">
+                      <img
+                        className="w-10 h-10 object-contain bg-white border rounded"
+                        src={item.product?.image?.[0] || assets.box_icon}
+                        alt={item.product?.name}
+                      />
+                      <div>
+                        <p className="font-medium text-sm text-gray-800">
+                          {item.product?.name || "Product Deleted"}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {item.weight && <span className="font-medium text-gray-600">{item.weight}</span>}
+                          <span className="mx-1">x</span>
+                          <span className="font-bold text-primary">{item.quantity}</span>
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Middle: Customer & Address */}
+              <div className="flex-1 border-l pl-0 md:pl-5 border-gray-100">
+                <h4 className="text-xs font-bold text-gray-400 uppercase mb-2">Shipping To</h4>
+                <div className="text-sm text-gray-700 space-y-1">
+                  <p className="font-semibold">{order.address?.firstName} {order.address?.lastName}</p>
+                  <p>{order.address?.phone}</p>
+                  <p className="text-gray-500 text-xs mt-1">
+                    {order.address?.street},<br />
+                    {order.address?.city}, {order.address?.state} - {order.address?.zipcode}<br />
+                    {order.address?.country}
+                  </p>
+                </div>
+              </div>
+
+              {/* Right: Payment & Status */}
+              <div className="flex-1 border-l pl-0 md:pl-5 border-gray-100 flex flex-col justify-between">
+                <div>
+                  <h4 className="text-xs font-bold text-gray-400 uppercase mb-2">Payment Info</h4>
+                  <div className="text-sm space-y-1">
+                    <p><span className="text-gray-500">Method:</span> <span className="font-mono font-medium">{order.paymentType}</span></p>
+                    <p>
+                      <span className="text-gray-500">Status:</span>
+                      <span className={`ml-2 px-2 py-0.5 rounded text-xs font-semibold ${order.isPaid ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
+                        {order.isPaid ? "Paid" : "Pending"}
+                      </span>
                     </p>
+                    {order.paymentType === 'ONLINE' && order.payment?.razorpayPaymentId && (
+                      <p className="text-xs text-gray-400 mt-1 break-all">
+                        Txn: <span className="font-mono">{order.payment.razorpayPaymentId}</span>
+                      </p>
+                    )}
+                    <p className="mt-2 text-lg font-bold text-gray-800">{currency}{order.amount}</p>
                   </div>
-                ))}
+                </div>
+
+                <div className="mt-4">
+                  <h4 className="text-xs font-bold text-gray-400 uppercase mb-1">Update Status</h4>
+                  <select
+                    onChange={(event) => statusHandler(event, order._id || "")}
+                    value={order.status}
+                    className="w-full p-2 border rounded font-medium text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                  >
+                    <option value="Order Placed">Order Placed</option>
+                    <option value="Packing">Packing</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Out for Delivery">Out for Delivery</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Canceled">Canceled</option>
+                    <option value="Successfully Refunded">Successfully Refunded</option>
+                  </select>
+                </div>
               </div>
             </div>
-
-            <div className="text-sm md:text-base text-black/60">
-              <p className="text-black/80">
-                {order.address?.firstName} {order.address?.lastName}
-              </p>
-              <p>
-                {order.address?.street}, {order.address?.city},
-              </p>
-              <p>
-                {order.address?.state}, {order.address?.zipcode},
-                {order.address?.country}
-              </p>
-              <p>{order.address?.phone}</p>
-            </div>
-
-            <p className="font-medium text-lg my-auto">
-              {currency}
-              {order.amount}
-            </p>
-
-            <div className="flex flex-col text-sm md:text-base text-black/60">
-              <p>Method: {order.paymentType}</p>
-              <p>Date: {new Date(order.createdAt).toLocaleDateString()}</p>
-              <p>Payment: {order.isPaid ? "Paid" : "Pending"}</p>
-            </div>
-
-            <select
-              onChange={(event) => statusHandler(event, order._id || "")}
-              value={order.status}
-              className="p-2 font-semibold"
-            >
-              <option value="Order Placed">Order Placed</option>
-              <option value="Packing">Packing</option>
-              <option value="Shipped">Shipped</option>
-              <option value="Out for Delivery">Out for Delivery</option>
-              <option value="Delivered">Delivered</option>
-              <option value="Canceled">Canceled</option>
-              <option value="Successfully Refunded">Successfully Refunded</option>
-            </select>
           </div>
         ))}
       </div>
