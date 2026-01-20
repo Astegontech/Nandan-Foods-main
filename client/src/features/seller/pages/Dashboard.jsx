@@ -15,6 +15,10 @@ import {
     Bar,
     Area,
     AreaChart,
+    PieChart,
+    Pie,
+    Cell,
+    Legend
 } from "recharts";
 
 const Dashboard = () => {
@@ -56,6 +60,8 @@ const Dashboard = () => {
         return <div className="p-8 text-center text-gray-500">No data available</div>;
     }
 
+    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];
+
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
             return (
@@ -76,7 +82,7 @@ const Dashboard = () => {
                 <div className="bg-white p-3 border border-gray-100 shadow-xl rounded-lg">
                     <p className="text-sm font-bold text-gray-800 mb-1">{payload[0].payload.name}</p>
                     <p className="text-sm text-emerald-600 font-semibold">
-                        Qty Sold: {payload[0].value}
+                        Qty: {payload[0].value}
                     </p>
                 </div>
             );
@@ -93,7 +99,7 @@ const Dashboard = () => {
             </div>
 
             {/* Stats Cards Row */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
                 {/* Total Sales Card */}
                 <div className="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-lg transition-all duration-300 group">
                     <div className="flex items-center justify-between mb-4">
@@ -102,7 +108,7 @@ const Dashboard = () => {
                         </div>
                         <span className="text-xs font-bold px-2 py-1 bg-blue-50 text-blue-600 rounded-md">Revenue</span>
                     </div>
-                    <h3 className="text-3xl font-bold text-gray-900 mb-1">{currency}{stats.totalSales.toLocaleString()}</h3>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-1">{currency}{stats.totalSales.toLocaleString()}</h3>
                     <p className="text-sm text-gray-500 font-medium">Total Lifetime Sales</p>
                 </div>
 
@@ -114,25 +120,37 @@ const Dashboard = () => {
                         </div>
                         <span className="text-xs font-bold px-2 py-1 bg-orange-50 text-orange-600 rounded-md">Orders</span>
                     </div>
-                    <h3 className="text-3xl font-bold text-gray-900 mb-1">{stats.totalOrders}</h3>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-1">{stats.totalOrders}</h3>
                     <p className="text-sm text-gray-500 font-medium">Total Orders Placed</p>
                 </div>
 
-                {/* Total Products Card */}
+                {/* AOV Card */}
                 <div className="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-lg transition-all duration-300 group">
                     <div className="flex items-center justify-between mb-4">
-                        <div className="p-3 bg-purple-50 text-purple-600 rounded-xl group-hover:scale-110 transition-transform duration-300">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                        <div className="p-3 bg-teal-50 text-teal-600 rounded-xl group-hover:scale-110 transition-transform duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
                         </div>
-                        <span className="text-xs font-bold px-2 py-1 bg-purple-50 text-purple-600 rounded-md">Products</span>
+                        <span className="text-xs font-bold px-2 py-1 bg-teal-50 text-teal-600 rounded-md">Avg. Value</span>
                     </div>
-                    <h3 className="text-3xl font-bold text-gray-900 mb-1">{stats.totalProducts}</h3>
-                    <p className="text-sm text-gray-500 font-medium">Active Products Listed</p>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-1">{currency}{stats.averageOrderValue}</h3>
+                    <p className="text-sm text-gray-500 font-medium">Average Order Value</p>
+                </div>
+
+                {/* Pending Orders Card */}
+                <div className="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-lg transition-all duration-300 group">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="p-3 bg-pink-50 text-pink-600 rounded-xl group-hover:scale-110 transition-transform duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <span className="text-xs font-bold px-2 py-1 bg-pink-50 text-pink-600 rounded-md animate-pulse">Action Needed</span>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-1">{stats.pendingOrders}</h3>
+                    <p className="text-sm text-gray-500 font-medium">Pending Orders</p>
                 </div>
             </div>
 
-            {/* Analytics Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+            {/* Analytics Section Row 1 */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                 {/* Sales Trend */}
                 <div className="bg-white p-6 rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100">
                     <div className="flex items-center justify-between mb-6">
@@ -158,13 +176,51 @@ const Dashboard = () => {
                     </div>
                 </div>
 
+                {/* Sales by Category (Pie Chart) */}
+                <div className="bg-white p-6 rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100">
+                    <div className="flex items-center justify-between mb-6">
+                        <h2 className="text-lg font-bold text-gray-800">Sales by Category</h2>
+                        <div className="text-xs font-medium text-gray-400 bg-gray-50 px-3 py-1 rounded-full">Proportional</div>
+                    </div>
+                    <div className="h-[300px] w-full relative">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                                <Pie
+                                    data={stats.categorySales}
+                                    cx="50%"
+                                    cy="50%"
+                                    innerRadius={60}
+                                    outerRadius={80}
+                                    fill="#8884d8"
+                                    paddingAngle={5}
+                                    dataKey="value"
+                                >
+                                    {stats.categorySales && stats.categorySales.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <Tooltip content={<CustomBarTooltip />} />
+                                <Legend layout="vertical" align="right" verticalAlign="middle" wrapperStyle={{ fontSize: '12px' }} />
+                            </PieChart>
+                        </ResponsiveContainer>
+                        {/* Center Text */}
+                        <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none pr-28">
+                            <p className="text-xl font-bold text-gray-800">{stats.totalProducts}</p>
+                            <p className="text-[10px] text-gray-400 uppercase tracking-wider">Products</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Analytics Section Row 2 */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
                 {/* Top Products */}
                 <div className="bg-white p-6 rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100">
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-lg font-bold text-gray-800">Top Selling Products</h2>
                         <div className="text-xs font-medium text-gray-400 bg-gray-50 px-3 py-1 rounded-full">By Volume</div>
                     </div>
-                    <div className="h-[300px] w-full">
+                    <div className="h-[250px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={stats.topSellingProducts} layout="vertical" margin={{ left: 0, right: 30 }}>
                                 <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#f3f4f6" />
@@ -179,6 +235,33 @@ const Dashboard = () => {
                                 />
                                 <Tooltip content={<CustomBarTooltip />} cursor={{ fill: '#f9fafb' }} />
                                 <Bar dataKey="quantity" fill="#10b981" radius={[0, 6, 6, 0]} barSize={24} />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+
+                {/* Order Status Distribution */}
+                <div className="bg-white p-6 rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100">
+                    <div className="flex items-center justify-between mb-6">
+                        <h2 className="text-lg font-bold text-gray-800">Order Status</h2>
+                        <div className="text-xs font-medium text-gray-400 bg-gray-50 px-3 py-1 rounded-full">All Time</div>
+                    </div>
+                    <div className="h-[250px] w-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <BarChart data={stats.orderStatusDistribution} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
+                                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#6b7280' }} interval={0} />
+                                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
+                                <Tooltip cursor={{ fill: '#f9fafb' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+                                <Bar dataKey="value" fill="#8884d8" radius={[6, 6, 0, 0]} barSize={40}>
+                                    {stats.orderStatusDistribution && stats.orderStatusDistribution.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={
+                                            entry.name === 'Order Placed' ? '#f59e0b' :
+                                                entry.name === 'Delivered' ? '#10b981' :
+                                                    entry.name === 'Shipped' ? '#3b82f6' : '#9ca3af'
+                                        } />
+                                    ))}
+                                </Bar>
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
