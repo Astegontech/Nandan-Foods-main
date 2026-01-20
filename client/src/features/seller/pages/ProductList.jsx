@@ -138,6 +138,21 @@ import toast from "react-hot-toast";
 
 const ProductList = () => {
   const { products, currency, axios, fetchProducts, navigate } = useAppContext();
+  const [searchQuery, setSearchQuery] = React.useState("");
+
+  // Algorithm: Linear Search (O(n))
+  // Why optimal? For an unsorted list of items, we must check every item to see if it matches.
+  // A* (A-Star) is a pathfinding algorithm for graphs/maps and is not suitable for text filtering.
+  // This Linear Search is mathematically optimal for this data structure.
+  // Optimization: useMemo caches the result so we don't re-compute on every render unless data changes.
+  const filteredProducts = React.useMemo(() => {
+    if (!searchQuery) return products;
+    const lowerQuery = searchQuery.toLowerCase();
+    return products.filter((product) =>
+      product.name.toLowerCase().includes(lowerQuery) ||
+      product.category.toLowerCase().includes(lowerQuery)
+    );
+  }, [products, searchQuery]);
 
   const toggleStock = async (id, inStock) => {
     try {
@@ -177,87 +192,93 @@ const ProductList = () => {
             </thead>
 
             <tbody className="text-gray-600">
-              {products.map((product) => (
-                <tr key={product._id} className="border-t">
-                  {/* Product */}
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-3">
-                      <div className="border rounded p-1 shrink-0">
+              {filteredProducts.length > 0 ? (
+                filteredProducts.map((product) => (
+                  <tr key={product._id} className="border-t">
+                    {/* Product */}
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-3">
+                        <div className="border rounded p-1 shrink-0">
+                          <img
+                            src={product.image[0]}
+                            alt="product"
+                            className="w-12 h-12 object-contain"
+                          />
+                        </div>
+                        <span className="truncate hidden sm:block max-w-[180px]">
+                          {product.name?.charAt(0).toUpperCase() + product.name?.slice(1)}
+                        </span>
+                      </div>
+                    </td>
+
+                    {/* Category */}
+                    <td className="px-4 py-3">{product.category}</td>
+
+                    {/* Price */}
+                    <td className="px-4 py-3">
+                      {product.weightVariants && product.weightVariants.length > 0 ? (
+                        <div className="flex flex-col gap-1">
+                          {product.weightVariants.map((variant, index) => (
+                            <div key={index} className="text-sm">
+                              <span className="font-medium text-gray-700">{variant.weight}: </span>
+                              <span className="text-gray-900">{currency}{variant.offerPrice}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <span>{currency}{product.offerPrice}</span>
+                      )}
+                    </td>
+
+                    {/* Stock Toggle */}
+                    <td className="px-4 py-3">
+                      <label className="relative inline-flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={product.inStock}
+                          onChange={() =>
+                            toggleStock(product._id, !product.inStock)
+                          }
+                          className="sr-only peer"
+                        />
+                        <div className="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-blue-600 transition"></div>
+                        <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition peer-checked:translate-x-5"></span>
+                      </label>
+                    </td>
+
+                    {/* Actions */}
+                    <td className="px-4 py-3 hidden md:table-cell">
+                      <div className="flex justify-around items-center">
                         <img
-                          src={product.image[0]}
-                          alt="product"
-                          className="w-12 h-12 object-contain"
+                          onClick={() =>
+                            navigate(`/seller/product-list/edit/${product._id}`)
+                          }
+                          className="w-4 cursor-pointer hover:scale-110 transition"
+                          src={
+                            assets.pen_icon ||
+                            "https://cdn-icons-png.flaticon.com/512/84/84380.png"
+                          }
+                          alt="edit"
+                          title="Edit"
+                        />
+                        <img
+                          onClick={() => removeProduct(product._id)}
+                          className="w-4 cursor-pointer hover:scale-110 transition"
+                          src={assets.remove_icon}
+                          alt="delete"
+                          title="Delete"
                         />
                       </div>
-                      <span className="truncate hidden sm:block max-w-[180px]">
-                        {product.name?.charAt(0).toUpperCase() + product.name?.slice(1)}
-                      </span>
-                    </div>
-                  </td>
-
-                  {/* Category */}
-                  <td className="px-4 py-3">{product.category}</td>
-
-                  {/* Price */}
-                  <td className="px-4 py-3">
-                    {product.weightVariants && product.weightVariants.length > 0 ? (
-                      <div className="flex flex-col gap-1">
-                        {product.weightVariants.map((variant, index) => (
-                          <div key={index} className="text-sm">
-                            <span className="font-medium text-gray-700">{variant.weight}: </span>
-                            <span className="text-gray-900">{currency}{variant.offerPrice}</span>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <span>{currency}{product.offerPrice}</span>
-                    )}
-                  </td>
-
-                  {/* Stock Toggle */}
-                  <td className="px-4 py-3">
-                    <label className="relative inline-flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={product.inStock}
-                        onChange={() =>
-                          toggleStock(product._id, !product.inStock)
-                        }
-                        className="sr-only peer"
-                      />
-                      <div className="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-blue-600 transition"></div>
-                      <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition peer-checked:translate-x-5"></span>
-                    </label>
-                  </td>
-
-                  {/* Actions */}
-                  <td className="px-4 py-3 hidden md:table-cell">
-                    <div className="flex justify-around items-center">
-                      <img
-                        onClick={() =>
-                          navigate(`/seller/product-list/edit/${product._id}`)
-                        }
-                        className="w-4 cursor-pointer hover:scale-110 transition"
-                        src={
-                          assets.pen_icon ||
-                          "https://cdn-icons-png.flaticon.com/512/84/84380.png"
-                        }
-                        alt="edit"
-                        title="Edit"
-                      />
-                      <img
-                        onClick={() => removeProduct(product._id)}
-                        className="w-4 cursor-pointer hover:scale-110 transition"
-                        src={assets.remove_icon}
-                        alt="delete"
-                        title="Delete"
-                      />
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
+          {filteredProducts.length === 0 && (
+            <div className="p-8 text-center text-gray-500">
+              No products found matching "{searchQuery}"
+            </div>
+          )}
         </div>
       </div>
     </div>
