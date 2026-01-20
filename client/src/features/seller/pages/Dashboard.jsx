@@ -296,7 +296,7 @@ const Dashboard = () => {
                 {/* Recent Orders - Takes up 2 columns on large screens */}
                 <div className="xl:col-span-2 bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden flex flex-col">
                     <div className="p-6 border-b border-gray-50 flex justify-between items-center bg-white sticky top-0 z-10">
-                        <h2 className="text-lg font-bold text-gray-800">Recent Orders</h2>
+                        <h2 className="text-lg font-bold text-gray-800">Recent Pending Orders</h2>
                         <button onClick={() => navigate('/seller/orders')} className="text-sm text-primary font-medium hover:underline">View All</button>
                     </div>
                     <div className="overflow-x-auto flex-1">

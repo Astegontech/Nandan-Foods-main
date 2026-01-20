@@ -75,8 +75,11 @@ export const getSellerDashboardStats = async (req, res) => {
     // Get low stock products (< 5)
     const lowStockProducts = await Product.find({ quantity: { $lt: 5 } }).select("name quantity image");
 
-    // Get recent orders (last 5)
-    const recentOrders = await Order.find({})
+    // Get recent orders (last 5) - Prioritize pending orders
+    // Exclude 'Delivered', 'Cancelled', and 'Successfully Refunded' to show actionable orders
+    const recentOrders = await Order.find({
+      status: { $nin: ['Delivered', 'Cancelled', 'Successfully Refunded'] }
+    })
       .sort({ createdAt: -1 })
       .limit(5)
       .populate("address", "firstname lastname city");
