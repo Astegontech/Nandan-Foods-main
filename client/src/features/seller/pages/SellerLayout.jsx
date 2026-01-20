@@ -8,7 +8,8 @@ const SellerLayout = () => {
   const { isSeller, setIsSeller, axios, navigate } = useAppContext();
 
   const sidebarLinks = [
-    { name: "Add Product", path: "/seller", icon: assets.add_icon },
+    { name: "Dashboard", path: "/seller", icon: assets.home_icon || assets.menu_icon },
+    { name: "Add Product", path: "/seller/add-product", icon: assets.add_icon },
     {
       name: "Product List",
       path: "/seller/product-list",
@@ -67,7 +68,7 @@ const SellerLayout = () => {
 
           {/* Right Side: Admin & Logout */}
           <div className="flex items-center gap-5 text-gray-500">
-            <p className="hidden md:block text-sm font-medium">Hi! Admin</p>
+            <p className="hidden md:block text-sm font-medium">Hi! Seller</p>
             <button
               onClick={logout}
               className="cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200 rounded-full text-xs font-bold px-4 py-2 transition-colors"

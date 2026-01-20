@@ -25,6 +25,7 @@ import AddProducts from "./features/seller/pages/AddProducts";
 import ProductList from "./features/seller/pages/ProductList";
 import Orders from "./features/seller/pages/Orders";
 import EditProduct from "./features/seller/pages/EditProduct";
+import Dashboard from "./features/seller/pages/Dashboard";
 import Loading from "./components/ui/Loading";
 import Contact from "./pages/Contact";
 import ProtectedRoute from "./features/auth/components/ProtectedRoute";
@@ -98,7 +99,8 @@ function App() {
             path="/seller"
             element={isSeller ? <SellerLayout /> : <SellerLogin />}
           >
-            <Route index element={isSeller ? <AddProducts /> : null} />
+            <Route index element={isSeller ? <Dashboard /> : null} />
+            <Route path="add-product" element={<AddProducts />} />
             <Route path="product-list" element={<ProductList />} />
             <Route path="product-list/edit/:id" element={<EditProduct />} />
             <Route path="orders" element={<Orders />} />
