@@ -149,9 +149,8 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* Analytics Section Row 1 */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                {/* Sales Trend */}
+            {/* Revenue Trend - Full Width */}
+            <div className="mb-8 overflow-hidden">
                 <div className="bg-white p-6 rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100">
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-lg font-bold text-gray-800">Revenue Trend</h2>
@@ -175,24 +174,27 @@ const Dashboard = () => {
                         </ResponsiveContainer>
                     </div>
                 </div>
+            </div>
 
-                {/* Sales by Category (Pie Chart) */}
-                <div className="bg-white p-6 rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col">
+            {/* Analytics Grid - 3 Columns Row */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                {/* Sales by Category (Pie Chart) - Condensed */}
+                <div className="bg-white p-5 rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col">
                     <div className="flex items-center justify-between mb-2">
-                        <h2 className="text-lg font-bold text-gray-800">Sales by Category</h2>
-                        <div className="text-xs font-medium text-gray-400 bg-gray-50 px-3 py-1 rounded-full">Proportional</div>
+                        <h2 className="text-sm font-bold text-gray-800">Sales by Category</h2>
+                        <div className="text-[10px] font-medium text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full">Proportional</div>
                     </div>
-                    <div className="flex-1 w-full relative min-h-[300px]">
+                    <div className="flex-1 w-full relative min-h-[220px]">
                         {stats.categorySales && stats.categorySales.length > 0 ? (
                             <>
-                                <ResponsiveContainer width="100%" height="100%">
+                                <ResponsiveContainer width="100%" height="220">
                                     <PieChart>
                                         <Pie
                                             data={stats.categorySales}
                                             cx="50%"
                                             cy="50%"
-                                            innerRadius={60}
-                                            outerRadius={80}
+                                            innerRadius={45}
+                                            outerRadius={65}
                                             fill="#8884d8"
                                             paddingAngle={5}
                                             dataKey="value"
@@ -202,77 +204,74 @@ const Dashboard = () => {
                                             ))}
                                         </Pie>
                                         <Tooltip content={<CustomBarTooltip />} />
-                                        <Legend layout="vertical" align="right" verticalAlign="middle" wrapperStyle={{ fontSize: '12px' }} />
+                                        <Legend layout="horizontal" align="center" verticalAlign="bottom" wrapperStyle={{ fontSize: '10px', paddingTop: '10px' }} />
                                     </PieChart>
                                 </ResponsiveContainer>
-                                <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none pr-28">
-                                    <p className="text-xl font-bold text-gray-800">{stats.totalProducts}</p>
-                                    <p className="text-[10px] text-gray-400 uppercase tracking-wider">Products</p>
+                                <div className="absolute top-[38%] left-[50%] -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
+                                    <p className="text-lg font-bold text-gray-800">{stats.totalProducts}</p>
+                                    <p className="text-[9px] text-gray-400 uppercase tracking-wider">Products</p>
                                 </div>
                             </>
                         ) : (
-                            <div className="flex items-center justify-center h-full text-gray-400">
-                                No category data available
+                            <div className="flex items-center justify-center h-full text-gray-400 text-xs">
+                                No category data
                             </div>
                         )}
                     </div>
                 </div>
-            </div>
 
-            {/* Analytics Section Row 2 */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
-                {/* Top Products */}
-                <div className="bg-white p-6 rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100">
-                    <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-lg font-bold text-gray-800">Top Selling Products</h2>
-                        <div className="text-xs font-medium text-gray-400 bg-gray-50 px-3 py-1 rounded-full">By Volume</div>
+                {/* Top Selling Products - Condensed */}
+                <div className="bg-white p-5 rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col">
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-sm font-bold text-gray-800">Top Selling Products</h2>
+                        <div className="text-[10px] font-medium text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full">By Volume</div>
                     </div>
-                    <div className="h-[300px] w-full">
+                    <div className="flex-1 w-full min-h-[220px]">
                         {stats.topSellingProducts && stats.topSellingProducts.length > 0 ? (
-                            <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={stats.topSellingProducts} layout="vertical" margin={{ left: 0, right: 30 }}>
+                            <ResponsiveContainer width="100%" height={220}>
+                                <BarChart data={stats.topSellingProducts.slice(0, 5)} layout="vertical" margin={{ left: -20, right: 20 }}>
                                     <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#f3f4f6" />
                                     <XAxis type="number" hide />
                                     <YAxis
                                         dataKey="name"
                                         type="category"
-                                        width={120}
+                                        width={100}
                                         axisLine={false}
                                         tickLine={false}
-                                        tick={{ fontSize: 13, fill: '#4b5563', fontWeight: 500 }}
+                                        tick={{ fontSize: 10, fill: '#4b5563', fontWeight: 500 }}
                                     />
                                     <Tooltip content={<CustomBarTooltip />} cursor={{ fill: '#f9fafb' }} />
-                                    <Bar dataKey="quantity" fill="#10b981" radius={[0, 6, 6, 0]} barSize={24} />
+                                    <Bar dataKey="quantity" fill="#10b981" radius={[0, 4, 4, 0]} barSize={16} />
                                 </BarChart>
                             </ResponsiveContainer>
                         ) : (
-                            <div className="flex items-center justify-center h-full text-gray-400">No sales data yet</div>
+                            <div className="flex items-center justify-center h-full text-gray-400 text-xs">No sales data</div>
                         )}
                     </div>
                 </div>
 
-                {/* Order Status Distribution */}
-                <div className="bg-white p-6 rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100">
-                    <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-lg font-bold text-gray-800">Order Status</h2>
-                        <div className="text-xs font-medium text-gray-400 bg-gray-50 px-3 py-1 rounded-full">All Time</div>
+                {/* Order Status Distribution - Condensed */}
+                <div className="bg-white p-5 rounded-2xl shadow-[0_2px_10px_-4_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col">
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-sm font-bold text-gray-800">Order Status</h2>
+                        <div className="text-[10px] font-medium text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full">All Time</div>
                     </div>
-                    <div className="h-[300px] w-full">
+                    <div className="flex-1 w-full min-h-[220px]">
                         {stats.orderStatusDistribution && stats.orderStatusDistribution.length > 0 ? (
-                            <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={stats.orderStatusDistribution} layout="vertical" margin={{ left: 0, right: 30 }}>
+                            <ResponsiveContainer width="100%" height={220}>
+                                <BarChart data={stats.orderStatusDistribution} layout="vertical" margin={{ left: -20, right: 20 }}>
                                     <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#f3f4f6" />
                                     <XAxis type="number" hide />
                                     <YAxis
                                         dataKey="name"
                                         type="category"
-                                        width={120}
+                                        width={100}
                                         axisLine={false}
                                         tickLine={false}
-                                        tick={{ fontSize: 13, fill: '#6b7280', fontWeight: 500 }}
+                                        tick={{ fontSize: 10, fill: '#6b7280', fontWeight: 500 }}
                                     />
-                                    <Tooltip cursor={{ fill: '#f9fafb' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
-                                    <Bar dataKey="value" fill="#8884d8" radius={[0, 6, 6, 0]} barSize={24}>
+                                    <Tooltip cursor={{ fill: '#f9fafb' }} contentStyle={{ fontSize: '12px', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+                                    <Bar dataKey="value" fill="#8884d8" radius={[0, 4, 4, 0]} barSize={16}>
                                         {stats.orderStatusDistribution.map((entry, index) => (
                                             <Cell key={`cell-${index}`} fill={
                                                 entry.name === 'Order Placed' ? '#f59e0b' :
@@ -284,7 +283,7 @@ const Dashboard = () => {
                                 </BarChart>
                             </ResponsiveContainer>
                         ) : (
-                            <div className="flex items-center justify-center h-full text-gray-400">No orders yet</div>
+                            <div className="flex items-center justify-center h-full text-gray-400 text-xs">No orders yet</div>
                         )}
                     </div>
                 </div>
