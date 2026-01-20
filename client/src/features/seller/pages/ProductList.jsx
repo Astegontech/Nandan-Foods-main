@@ -295,14 +295,16 @@ const ProductList = () => {
                       </div>
                     </td>
                   </tr>
-                ))}
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="px-4 py-8 text-center text-gray-500">
+                    No products found matching "{searchQuery}"
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
-          {filteredProducts.length === 0 && (
-            <div className="p-8 text-center text-gray-500">
-              No products found matching "{searchQuery}"
-            </div>
-          )}
         </div>
       </div>
     </div>
