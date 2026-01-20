@@ -260,12 +260,19 @@ const Dashboard = () => {
                     <div className="h-[300px] w-full">
                         {stats.orderStatusDistribution && stats.orderStatusDistribution.length > 0 ? (
                             <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={stats.orderStatusDistribution} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
-                                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#6b7280' }} interval={0} />
-                                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
+                                <BarChart data={stats.orderStatusDistribution} layout="vertical" margin={{ left: 0, right: 30 }}>
+                                    <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#f3f4f6" />
+                                    <XAxis type="number" hide />
+                                    <YAxis
+                                        dataKey="name"
+                                        type="category"
+                                        width={120}
+                                        axisLine={false}
+                                        tickLine={false}
+                                        tick={{ fontSize: 13, fill: '#6b7280', fontWeight: 500 }}
+                                    />
                                     <Tooltip cursor={{ fill: '#f9fafb' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
-                                    <Bar dataKey="value" fill="#8884d8" radius={[6, 6, 0, 0]} barSize={40}>
+                                    <Bar dataKey="value" fill="#8884d8" radius={[0, 6, 6, 0]} barSize={24}>
                                         {stats.orderStatusDistribution.map((entry, index) => (
                                             <Cell key={`cell-${index}`} fill={
                                                 entry.name === 'Order Placed' ? '#f59e0b' :
