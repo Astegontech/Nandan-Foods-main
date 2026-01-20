@@ -101,19 +101,19 @@ const Dashboard = () => {
             {/* Stats Cards Row */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
                 {/* Total Sales Card */}
-                <div className="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-lg transition-all duration-300 group">
+                <div onClick={() => navigate('/seller/orders')} className="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer">
                     <div className="flex items-center justify-between mb-4">
                         <div className="p-3 bg-blue-50 text-blue-600 rounded-xl group-hover:scale-110 transition-transform duration-300">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         </div>
                         <span className="text-xs font-bold px-2 py-1 bg-blue-50 text-blue-600 rounded-md">Revenue</span>
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-1">{currency}{stats.totalSales.toLocaleString()}</h3>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-1">{currency}{(stats.totalSales || 0).toLocaleString()}</h3>
                     <p className="text-sm text-gray-500 font-medium">Total Lifetime Sales</p>
                 </div>
 
                 {/* Total Orders Card */}
-                <div className="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-lg transition-all duration-300 group">
+                <div onClick={() => navigate('/seller/orders')} className="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer">
                     <div className="flex items-center justify-between mb-4">
                         <div className="p-3 bg-orange-50 text-orange-600 rounded-xl group-hover:scale-110 transition-transform duration-300">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
@@ -132,19 +132,19 @@ const Dashboard = () => {
                         </div>
                         <span className="text-xs font-bold px-2 py-1 bg-teal-50 text-teal-600 rounded-md">Avg. Value</span>
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-1">{currency}{stats.averageOrderValue}</h3>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-1">{currency}{stats.averageOrderValue || 0}</h3>
                     <p className="text-sm text-gray-500 font-medium">Average Order Value</p>
                 </div>
 
                 {/* Pending Orders Card */}
-                <div className="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-lg transition-all duration-300 group">
+                <div onClick={() => navigate('/seller/orders')} className="bg-white rounded-2xl p-6 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer">
                     <div className="flex items-center justify-between mb-4">
                         <div className="p-3 bg-pink-50 text-pink-600 rounded-xl group-hover:scale-110 transition-transform duration-300">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         </div>
                         <span className="text-xs font-bold px-2 py-1 bg-pink-50 text-pink-600 rounded-md animate-pulse">Action Needed</span>
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-1">{stats.pendingOrders}</h3>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-1">{stats.pendingOrders || 0}</h3>
                     <p className="text-sm text-gray-500 font-medium">Pending Orders</p>
                 </div>
             </div>
@@ -177,37 +177,44 @@ const Dashboard = () => {
                 </div>
 
                 {/* Sales by Category (Pie Chart) */}
-                <div className="bg-white p-6 rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100">
-                    <div className="flex items-center justify-between mb-6">
+                <div className="bg-white p-6 rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col">
+                    <div className="flex items-center justify-between mb-2">
                         <h2 className="text-lg font-bold text-gray-800">Sales by Category</h2>
                         <div className="text-xs font-medium text-gray-400 bg-gray-50 px-3 py-1 rounded-full">Proportional</div>
                     </div>
-                    <div className="h-[300px] w-full relative">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <PieChart>
-                                <Pie
-                                    data={stats.categorySales}
-                                    cx="50%"
-                                    cy="50%"
-                                    innerRadius={60}
-                                    outerRadius={80}
-                                    fill="#8884d8"
-                                    paddingAngle={5}
-                                    dataKey="value"
-                                >
-                                    {stats.categorySales && stats.categorySales.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                                </Pie>
-                                <Tooltip content={<CustomBarTooltip />} />
-                                <Legend layout="vertical" align="right" verticalAlign="middle" wrapperStyle={{ fontSize: '12px' }} />
-                            </PieChart>
-                        </ResponsiveContainer>
-                        {/* Center Text */}
-                        <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none pr-28">
-                            <p className="text-xl font-bold text-gray-800">{stats.totalProducts}</p>
-                            <p className="text-[10px] text-gray-400 uppercase tracking-wider">Products</p>
-                        </div>
+                    <div className="flex-1 w-full relative min-h-[300px]">
+                        {stats.categorySales && stats.categorySales.length > 0 ? (
+                            <>
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <PieChart>
+                                        <Pie
+                                            data={stats.categorySales}
+                                            cx="50%"
+                                            cy="50%"
+                                            innerRadius={60}
+                                            outerRadius={80}
+                                            fill="#8884d8"
+                                            paddingAngle={5}
+                                            dataKey="value"
+                                        >
+                                            {stats.categorySales.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                            ))}
+                                        </Pie>
+                                        <Tooltip content={<CustomBarTooltip />} />
+                                        <Legend layout="vertical" align="right" verticalAlign="middle" wrapperStyle={{ fontSize: '12px' }} />
+                                    </PieChart>
+                                </ResponsiveContainer>
+                                <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none pr-28">
+                                    <p className="text-xl font-bold text-gray-800">{stats.totalProducts}</p>
+                                    <p className="text-[10px] text-gray-400 uppercase tracking-wider">Products</p>
+                                </div>
+                            </>
+                        ) : (
+                            <div className="flex items-center justify-center h-full text-gray-400">
+                                No category data available
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -220,23 +227,27 @@ const Dashboard = () => {
                         <h2 className="text-lg font-bold text-gray-800">Top Selling Products</h2>
                         <div className="text-xs font-medium text-gray-400 bg-gray-50 px-3 py-1 rounded-full">By Volume</div>
                     </div>
-                    <div className="h-[250px] w-full">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={stats.topSellingProducts} layout="vertical" margin={{ left: 0, right: 30 }}>
-                                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#f3f4f6" />
-                                <XAxis type="number" hide />
-                                <YAxis
-                                    dataKey="name"
-                                    type="category"
-                                    width={120}
-                                    axisLine={false}
-                                    tickLine={false}
-                                    tick={{ fontSize: 13, fill: '#4b5563', fontWeight: 500 }}
-                                />
-                                <Tooltip content={<CustomBarTooltip />} cursor={{ fill: '#f9fafb' }} />
-                                <Bar dataKey="quantity" fill="#10b981" radius={[0, 6, 6, 0]} barSize={24} />
-                            </BarChart>
-                        </ResponsiveContainer>
+                    <div className="h-[300px] w-full">
+                        {stats.topSellingProducts && stats.topSellingProducts.length > 0 ? (
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart data={stats.topSellingProducts} layout="vertical" margin={{ left: 0, right: 30 }}>
+                                    <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#f3f4f6" />
+                                    <XAxis type="number" hide />
+                                    <YAxis
+                                        dataKey="name"
+                                        type="category"
+                                        width={120}
+                                        axisLine={false}
+                                        tickLine={false}
+                                        tick={{ fontSize: 13, fill: '#4b5563', fontWeight: 500 }}
+                                    />
+                                    <Tooltip content={<CustomBarTooltip />} cursor={{ fill: '#f9fafb' }} />
+                                    <Bar dataKey="quantity" fill="#10b981" radius={[0, 6, 6, 0]} barSize={24} />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        ) : (
+                            <div className="flex items-center justify-center h-full text-gray-400">No sales data yet</div>
+                        )}
                     </div>
                 </div>
 
@@ -246,24 +257,28 @@ const Dashboard = () => {
                         <h2 className="text-lg font-bold text-gray-800">Order Status</h2>
                         <div className="text-xs font-medium text-gray-400 bg-gray-50 px-3 py-1 rounded-full">All Time</div>
                     </div>
-                    <div className="h-[250px] w-full">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={stats.orderStatusDistribution} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
-                                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#6b7280' }} interval={0} />
-                                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
-                                <Tooltip cursor={{ fill: '#f9fafb' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
-                                <Bar dataKey="value" fill="#8884d8" radius={[6, 6, 0, 0]} barSize={40}>
-                                    {stats.orderStatusDistribution && stats.orderStatusDistribution.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={
-                                            entry.name === 'Order Placed' ? '#f59e0b' :
-                                                entry.name === 'Delivered' ? '#10b981' :
-                                                    entry.name === 'Shipped' ? '#3b82f6' : '#9ca3af'
-                                        } />
-                                    ))}
-                                </Bar>
-                            </BarChart>
-                        </ResponsiveContainer>
+                    <div className="h-[300px] w-full">
+                        {stats.orderStatusDistribution && stats.orderStatusDistribution.length > 0 ? (
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart data={stats.orderStatusDistribution} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
+                                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#6b7280' }} interval={0} />
+                                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
+                                    <Tooltip cursor={{ fill: '#f9fafb' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+                                    <Bar dataKey="value" fill="#8884d8" radius={[6, 6, 0, 0]} barSize={40}>
+                                        {stats.orderStatusDistribution.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={
+                                                entry.name === 'Order Placed' ? '#f59e0b' :
+                                                    entry.name === 'Delivered' ? '#10b981' :
+                                                        entry.name === 'Shipped' ? '#3b82f6' : '#9ca3af'
+                                            } />
+                                        ))}
+                                    </Bar>
+                                </BarChart>
+                            </ResponsiveContainer>
+                        ) : (
+                            <div className="flex items-center justify-center h-full text-gray-400">No orders yet</div>
+                        )}
                     </div>
                 </div>
             </div>
