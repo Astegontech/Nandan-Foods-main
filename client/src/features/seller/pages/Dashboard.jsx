@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../../context/AppContext";
 import { assets } from "../../../assets/assets";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import {
     LineChart,
     Line,
@@ -18,6 +19,7 @@ import {
 
 const Dashboard = () => {
     const { axios, currency } = useAppContext();
+    const navigate = useNavigate();
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -190,7 +192,7 @@ const Dashboard = () => {
                 <div className="xl:col-span-2 bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden flex flex-col">
                     <div className="p-6 border-b border-gray-50 flex justify-between items-center bg-white sticky top-0 z-10">
                         <h2 className="text-lg font-bold text-gray-800">Recent Orders</h2>
-                        <button className="text-sm text-primary font-medium hover:underline">View All</button>
+                        <button onClick={() => navigate('/seller/orders')} className="text-sm text-primary font-medium hover:underline">View All</button>
                     </div>
                     <div className="overflow-x-auto flex-1">
                         <table className="w-full text-left border-collapse">
