@@ -175,7 +175,31 @@ const ProductList = () => {
   return (
     <div className="flex-1 h-[95vh] overflow-y-auto no-scrollbar">
       <div className="w-full max-w-6xl mx-auto p-4 md:p-8">
-        <h2 className="pb-4 text-lg font-medium">All Products</h2>
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+          <h2 className="text-lg font-medium">All Products</h2>
+          <div className="relative w-full sm:w-72">
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+            />
+            <svg
+              className="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+          </div>
+        </div>
 
         <div className="overflow-x-auto bg-white border border-gray-200 rounded-md">
           <table className="w-full table-auto text-sm">
