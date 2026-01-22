@@ -42,7 +42,7 @@ export const placeOrderCOD = async (req, res) => {
 
     let amount = 0;
 
-    // 2. Validate Items & Calculate Amount
+    // 2. Validate Items, Calculate Amount & Check Stock
     for (const item of items) {
       // Create Cart Key
       const cartKey = item.weight
@@ -59,13 +59,6 @@ export const placeOrderCOD = async (req, res) => {
 
       // OVERRIDE quantity from Database
       item.quantity = dbQty;
-
-      // Validate Quantity (Double check, though DB should be correct)
-      if (!item.quantity || item.quantity <= 0) {
-        return res
-          .status(400)
-          .json({ success: false, message: "Invalid quantity for item" });
-      }
 
       const product = await Product.findById(item.product);
       if (!product) {
@@ -96,17 +89,17 @@ export const placeOrderCOD = async (req, res) => {
         if (variant.stock < item.quantity) {
           return res.status(400).json({
             success: false,
-            message: `${product.name} (${item.weight}) is out of stock`,
+            message: `Insufficient stock for ${product.name} (${item.weight}). Only ${variant.stock} left.`,
           });
         }
 
         itemPrice = variant.offerPrice;
       } else {
         // Stock Check for Standard Product
-        if (!product.inStock) {
+        if (product.stock < item.quantity) {
           return res.status(400).json({
             success: false,
-            message: `${product.name} is out of stock`,
+            message: `Insufficient stock for ${product.name}. Only ${product.stock} left.`,
           });
         }
       }
@@ -126,6 +119,24 @@ export const placeOrderCOD = async (req, res) => {
       address,
       paymentType: "COD",
     });
+
+    // 3. Deduct Stock
+    for (const item of items) {
+      const product = await Product.findById(item.product);
+      if (
+        item.weight &&
+        product.weightVariants &&
+        product.weightVariants.length > 0
+      ) {
+        const variantIndex = product.weightVariants.findIndex(v => v.weight === item.weight);
+        if (variantIndex !== -1) {
+          product.weightVariants[variantIndex].stock -= item.quantity;
+        }
+      } else {
+        product.stock -= item.quantity;
+      }
+      await product.save();
+    }
 
     // Clear user's cart after placing COD order
     await User.findByIdAndUpdate(userId, { cartItems: {} });
@@ -391,6 +402,35 @@ export const verifyRazorpayPayment = async (req, res) => {
       return res
         .status(400)
         .json({ success: false, message: "Payment not captured" });
+    }
+
+    // FINAL STOCK CHECK BEFORE CONFIRMING
+    for (const item of order.items) {
+      const product = await Product.findById(item.product);
+      if (item.weight && product.weightVariants && product.weightVariants.length > 0) {
+        const variant = product.weightVariants.find((v) => v.weight === item.weight);
+        if (!variant || variant.stock < item.quantity) {
+          return res.status(400).json({ success: false, message: `Stock Issue: ${product.name} (${item.weight}) is now out of stock.` });
+        }
+      } else {
+        if (product.stock < item.quantity) {
+          return res.status(400).json({ success: false, message: `Stock Issue: ${product.name} is now out of stock.` });
+        }
+      }
+    }
+
+    // Deduct Stock
+    for (const item of order.items) {
+      const product = await Product.findById(item.product);
+      if (item.weight && product.weightVariants && product.weightVariants.length > 0) {
+        const variantIndex = product.weightVariants.findIndex(v => v.weight === item.weight);
+        if (variantIndex !== -1) {
+          product.weightVariants[variantIndex].stock -= item.quantity;
+        }
+      } else {
+        product.stock -= item.quantity;
+      }
+      await product.save();
     }
 
     // Mark order as paid and store payment details

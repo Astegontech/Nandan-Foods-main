@@ -8,19 +8,23 @@ const ProductCard = ({ product }) => {
   const [selectedWeight, setSelectedWeight] = useState(product.availableWeights?.[0] || "");
 
   // Get price for selected weight variant
-  const getVariantPrice = () => {
+  // Get price and stock for selected weight variant
+  const getVariantData = () => {
     if (product.weightVariants && product.weightVariants.length > 0 && selectedWeight) {
       const variant = product.weightVariants.find(v => v.weight === selectedWeight);
-      return variant || { price: product.price, offerPrice: product.offerPrice };
+      return variant || { price: product.price, offerPrice: product.offerPrice, stock: 0 };
     }
-    return { price: product.price, offerPrice: product.offerPrice };
+    return { price: product.price, offerPrice: product.offerPrice, stock: product.stock };
   };
 
-  const currentVariant = getVariantPrice();
+  const currentVariant = getVariantData();
+  const effectiveStock = currentVariant.stock;
 
   // Generate cart key based on product and weight
   const getCartKey = () => selectedWeight ? `${product._id}-${selectedWeight}` : product._id;
   const cartKey = getCartKey();
+
+  const isOutOfStock = !product.inStock || effectiveStock <= 0;
 
   return (
     product && (
@@ -35,14 +39,14 @@ const ProductCard = ({ product }) => {
       >
         <div className="relative flex items-center justify-center h-40 sm:h-48 bg-gray-50/50 group-hover:bg-gray-50 transition-colors p-3 overflow-hidden">
           <img
-            className={`w-full h-full object-contain transition-transform duration-700 ease-in-out group-hover:scale-110 group-hover:rotate-1 ${!product.inStock ? "opacity-50 grayscale" : ""
+            className={`w-full h-full object-contain transition-transform duration-700 ease-in-out group-hover:scale-110 group-hover:rotate-1 ${isOutOfStock ? "opacity-50 grayscale" : ""
               }`}
             src={product.image?.[0]}
             alt={product.name}
           />
 
           {/* Sale Badge */}
-          {currentVariant.price > currentVariant.offerPrice && product.inStock && (
+          {currentVariant.price > currentVariant.offerPrice && !isOutOfStock && (
             <div className="absolute top-2 left-2 bg-red-500 text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full shadow-sm z-10 flex items-center gap-1">
               <span className="tracking-wide">
                 {Math.round(((currentVariant.price - currentVariant.offerPrice) / currentVariant.price) * 100)}% OFF
@@ -50,7 +54,7 @@ const ProductCard = ({ product }) => {
             </div>
           )}
 
-          {!product.inStock && (
+          {isOutOfStock && (
             <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-[2px] z-20">
               <span className="px-4 py-1.5 bg-red-500 text-white text-xs font-bold rounded-full shadow-md uppercase tracking-wide transform -rotate-6">
                 Out of Stock
@@ -62,13 +66,13 @@ const ProductCard = ({ product }) => {
         <div className="p-3 flex flex-col flex-grow">
           {/* Header: Category & Rating */}
           {/* <div className="flex justify-between items-start mb-1.5"> */}
-            {/* <span className="px-2 py-0.5 rounded-full bg-emerald-600 text-white text-[10px] font-bold uppercase tracking-wider shadow-sm">
+          {/* <span className="px-2 py-0.5 rounded-full bg-emerald-600 text-white text-[10px] font-bold uppercase tracking-wider shadow-sm">
               {product.category}
             </span>
             <div className="flex items-center gap-1 bg-white">
               <div className="flex text-yellow-500 text-xs"> */}
-                {/* Static rating for now as per original code */}
-                {/* {"★★★★☆".split("").map((star, i) => (
+          {/* Static rating for now as per original code */}
+          {/* {"★★★★☆".split("").map((star, i) => (
                   <span key={i} className={i < 4 ? "text-yellow-400" : "text-gray-300"}>★</span>
                 ))}
               </div>
@@ -81,9 +85,9 @@ const ProductCard = ({ product }) => {
           </h3>
 
           {/* Low Stock Indicator */}
-          {product.stock && product.stock < 10 && product.inStock && (
+          {effectiveStock > 0 && effectiveStock < 10 && !isOutOfStock && (
             <p className="text-[10px] text-orange-500 font-medium mb-1">
-              Only {product.stock} left!
+              Only {effectiveStock} left!
             </p>
           )}
 
@@ -98,8 +102,8 @@ const ProductCard = ({ product }) => {
                     setSelectedWeight(weight);
                   }}
                   className={`px-2 py-0.5 text-[10px] sm:text-xs font-semibold rounded-md transition-all duration-200 border shadow-sm flex-shrink-0 ${selectedWeight === weight
-                      ? "bg-emerald-600 text-white border-emerald-600"
-                      : "bg-gray-50 text-gray-700 border-gray-200 hover:border-emerald-300 hover:text-emerald-700 hover:bg-emerald-50"
+                    ? "bg-emerald-600 text-white border-emerald-600"
+                    : "bg-gray-50 text-gray-700 border-gray-200 hover:border-emerald-300 hover:text-emerald-700 hover:bg-emerald-50"
                     }`}
                 >
                   {weight}
@@ -126,7 +130,7 @@ const ProductCard = ({ product }) => {
             >
               {!cartItems?.[cartKey] ? (
                 <button
-                  disabled={!product.inStock}
+                  disabled={isOutOfStock}
                   onClick={() => {
                     if (product.availableWeights && product.availableWeights.length > 0 && !selectedWeight) {
                       alert('Please select a weight option');
@@ -134,7 +138,7 @@ const ProductCard = ({ product }) => {
                     }
                     addToCart(product._id, selectedWeight);
                   }}
-                  className={`relative overflow-hidden h-8 px-3 sm:px-4 rounded-lg font-semibold text-xs sm:text-sm transition-all duration-300 transform active:scale-95 flex items-center gap-2 shadow-sm hover:shadow-md ${!product.inStock
+                  className={`relative overflow-hidden h-8 px-3 sm:px-4 rounded-lg font-semibold text-xs sm:text-sm transition-all duration-300 transform active:scale-95 flex items-center gap-2 shadow-sm hover:shadow-md ${isOutOfStock
                     ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                     : "bg-emerald-600 text-white hover:bg-emerald-700"
                     }`}

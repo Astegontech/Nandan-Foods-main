@@ -14,15 +14,18 @@ const ProductDetails = () => {
     const product = products.find((item) => item._id === id);
 
     // Get price for selected weight variant
-    const getVariantPrice = () => {
+    // Get price and stock for selected weight variant
+    const getVariantData = () => {
         if (product?.weightVariants && product.weightVariants.length > 0 && selectedWeight) {
             const variant = product.weightVariants.find(v => v.weight === selectedWeight);
-            return variant || { price: product.price, offerPrice: product.offerPrice };
+            return variant || { price: product.price, offerPrice: product.offerPrice, stock: 0 };
         }
-        return { price: product?.price, offerPrice: product?.offerPrice };
+        return { price: product?.price, offerPrice: product?.offerPrice, stock: product?.stock || 0 };
     };
 
-    const currentVariant = getVariantPrice();
+    const currentVariant = getVariantData();
+    const effectiveStock = currentVariant.stock;
+    const isOutOfStock = !product?.inStock || effectiveStock <= 0;
 
     useEffect(() => {
         if (products.length > 0 && product) {
@@ -66,14 +69,14 @@ const ProductDetails = () => {
                                 <img
                                     src={thumbnail}
                                     alt={product.name}
-                                    className={`w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105 ${!product.inStock ? "opacity-50 grayscale" : ""}`}
+                                    className={`w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105 ${isOutOfStock ? "opacity-50 grayscale" : ""}`}
                                 />
-                                {Math.round(((currentVariant.price - currentVariant.offerPrice) / currentVariant.price) * 100) > 0 && product.inStock && (
+                                {Math.round(((currentVariant.price - currentVariant.offerPrice) / currentVariant.price) * 100) > 0 && !isOutOfStock && (
                                     <span className="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded shadow-sm">
                                         {Math.round(((currentVariant.price - currentVariant.offerPrice) / currentVariant.price) * 100)}% OFF
                                     </span>
                                 )}
-                                {!product.inStock && (
+                                {isOutOfStock && (
                                     <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-[2px] z-20">
                                         <span className="px-6 py-2 bg-red-500 text-white text-lg font-bold rounded-full shadow-md uppercase tracking-wide transform -rotate-12">
                                             Out of Stock
@@ -117,6 +120,12 @@ const ProductDetails = () => {
                                     In Stock
                                 </span>
                             </div> */}
+
+                            {effectiveStock > 0 && effectiveStock < 10 && !isOutOfStock && (
+                                <p className="text-orange-500 font-medium mb-4 animate-pulse">
+                                    Hurry! Only {effectiveStock} left in stock.
+                                </p>
+                            )}
 
                             {/* Price */}
                             <div className="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100 inline-block w-full sm:w-auto">
@@ -190,26 +199,26 @@ const ProductDetails = () => {
                             {/* Actions */}
                             <div className="flex gap-4 mb-10">
                                 <button
-                                    disabled={!product.inStock}
+                                    disabled={isOutOfStock}
                                     onClick={() => {
                                         if (product.availableWeights?.length > 0 && !selectedWeight) return alert('Select weight');
                                         addToCart(product._id, selectedWeight);
                                         navigate("/cart");
                                     }}
-                                    className={`flex-1 font-semibold py-4 rounded-xl shadow-lg transition-all ${!product.inStock
+                                    className={`flex-1 font-semibold py-4 rounded-xl shadow-lg transition-all ${isOutOfStock
                                         ? "bg-gray-300 text-gray-500 cursor-not-allowed shadow-none"
                                         : "bg-primary text-white shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-0.5"
                                         }`}
                                 >
-                                    {product.inStock ? "Buy Now" : "Out of Stock"}
+                                    {isOutOfStock ? "Out of Stock" : "Buy Now"}
                                 </button>
                                 <button
-                                    disabled={!product.inStock}
+                                    disabled={isOutOfStock}
                                     onClick={() => {
                                         if (product.availableWeights?.length > 0 && !selectedWeight) return alert('Select weight');
                                         addToCart(product._id, selectedWeight);
                                     }}
-                                    className={`flex-1 border-2 font-semibold py-4 rounded-xl transition-all ${!product.inStock
+                                    className={`flex-1 border-2 font-semibold py-4 rounded-xl transition-all ${isOutOfStock
                                         ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
                                         : "bg-white border-primary text-primary hover:bg-primary/5"
                                         }`}

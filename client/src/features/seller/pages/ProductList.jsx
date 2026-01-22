@@ -256,22 +256,35 @@ const ProductList = () => {
 
                     {/* Stock Toggle */}
                     <td className="px-4 py-3">
-                      <div className="flex items-center gap-3">
-                        <label className="relative inline-flex items-center cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={product.inStock}
-                            onChange={() =>
-                              toggleStock(product._id, !product.inStock)
-                            }
-                            className="sr-only peer"
-                          />
-                          <div className={`w-11 h-6 rounded-full transition-colors ${product.inStock ? 'bg-blue-600' : 'bg-gray-300'}`}></div>
-                          <span className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform ${product.inStock ? 'translate-x-5' : 'translate-x-0'}`}></span>
-                        </label>
-                        <span className={`text-xs font-medium px-2 py-1 rounded-full ${product.inStock ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
-                          {product.inStock ? 'In Stock' : 'Out of Stock'}
-                        </span>
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-3">
+                          <label className="relative inline-flex items-center cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={product.inStock}
+                              onChange={() =>
+                                toggleStock(product._id, !product.inStock)
+                              }
+                              className="sr-only peer"
+                            />
+                            <div className={`w-11 h-6 rounded-full transition-colors ${product.inStock ? 'bg-blue-600' : 'bg-gray-300'}`}></div>
+                            <span className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform ${product.inStock ? 'translate-x-5' : 'translate-x-0'}`}></span>
+                          </label>
+                          <span className={`text-xs font-medium px-2 py-1 rounded-full ${product.inStock ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                            {product.inStock ? 'In Stock' : 'Out of Stock'}
+                          </span>
+                        </div>
+
+                        {/* Numeric Stock Display */}
+                        <div className="text-xs text-gray-600 font-medium">
+                          {product.weightVariants && product.weightVariants.length > 0 ? (
+                            product.weightVariants.map((v, i) => (
+                              <div key={i}>{v.weight}: {v.stock} units</div>
+                            ))
+                          ) : (
+                            <div>{product.stock || 0} units</div>
+                          )}
+                        </div>
                       </div>
                     </td>
 
