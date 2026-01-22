@@ -66,12 +66,19 @@ const ProductDetails = () => {
                                 <img
                                     src={thumbnail}
                                     alt={product.name}
-                                    className="w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105"
+                                    className={`w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105 ${!product.inStock ? "opacity-50 grayscale" : ""}`}
                                 />
-                                {Math.round(((currentVariant.price - currentVariant.offerPrice) / currentVariant.price) * 100) > 0 && (
+                                {Math.round(((currentVariant.price - currentVariant.offerPrice) / currentVariant.price) * 100) > 0 && product.inStock && (
                                     <span className="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded shadow-sm">
                                         {Math.round(((currentVariant.price - currentVariant.offerPrice) / currentVariant.price) * 100)}% OFF
                                     </span>
+                                )}
+                                {!product.inStock && (
+                                    <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-[2px] z-20">
+                                        <span className="px-6 py-2 bg-red-500 text-white text-lg font-bold rounded-full shadow-md uppercase tracking-wide transform -rotate-12">
+                                            Out of Stock
+                                        </span>
+                                    </div>
                                 )}
                             </div>
 
@@ -183,21 +190,29 @@ const ProductDetails = () => {
                             {/* Actions */}
                             <div className="flex gap-4 mb-10">
                                 <button
+                                    disabled={!product.inStock}
                                     onClick={() => {
                                         if (product.availableWeights?.length > 0 && !selectedWeight) return alert('Select weight');
                                         addToCart(product._id, selectedWeight);
                                         navigate("/cart");
                                     }}
-                                    className="flex-1 bg-primary text-white font-semibold py-4 rounded-xl shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-0.5 transition-all"
+                                    className={`flex-1 font-semibold py-4 rounded-xl shadow-lg transition-all ${!product.inStock
+                                        ? "bg-gray-300 text-gray-500 cursor-not-allowed shadow-none"
+                                        : "bg-primary text-white shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-0.5"
+                                        }`}
                                 >
-                                    Buy Now
+                                    {product.inStock ? "Buy Now" : "Out of Stock"}
                                 </button>
                                 <button
+                                    disabled={!product.inStock}
                                     onClick={() => {
                                         if (product.availableWeights?.length > 0 && !selectedWeight) return alert('Select weight');
                                         addToCart(product._id, selectedWeight);
                                     }}
-                                    className="flex-1 bg-white border-2 border-primary text-primary font-semibold py-4 rounded-xl hover:bg-primary/5 transition-all"
+                                    className={`flex-1 border-2 font-semibold py-4 rounded-xl transition-all ${!product.inStock
+                                        ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
+                                        : "bg-white border-primary text-primary hover:bg-primary/5"
+                                        }`}
                                 >
                                     Add to Cart
                                 </button>

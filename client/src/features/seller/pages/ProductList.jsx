@@ -256,18 +256,23 @@ const ProductList = () => {
 
                     {/* Stock Toggle */}
                     <td className="px-4 py-3">
-                      <label className="relative inline-flex items-center cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={product.inStock}
-                          onChange={() =>
-                            toggleStock(product._id, !product.inStock)
-                          }
-                          className="sr-only peer"
-                        />
-                        <div className="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-blue-600 transition"></div>
-                        <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition peer-checked:translate-x-5"></span>
-                      </label>
+                      <div className="flex items-center gap-3">
+                        <label className="relative inline-flex items-center cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={product.inStock}
+                            onChange={() =>
+                              toggleStock(product._id, !product.inStock)
+                            }
+                            className="sr-only peer"
+                          />
+                          <div className={`w-11 h-6 rounded-full transition-colors ${product.inStock ? 'bg-blue-600' : 'bg-gray-300'}`}></div>
+                          <span className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform ${product.inStock ? 'translate-x-5' : 'translate-x-0'}`}></span>
+                        </label>
+                        <span className={`text-xs font-medium px-2 py-1 rounded-full ${product.inStock ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                          {product.inStock ? 'In Stock' : 'Out of Stock'}
+                        </span>
+                      </div>
                     </td>
 
                     {/* Actions */}
