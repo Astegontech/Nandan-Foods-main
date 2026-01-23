@@ -30,13 +30,12 @@ const Orders = () => {
     try {
       const { data } = await axios.get("/api/order/seller");
       if (data.success) {
-        // Sort orders so the newest ones are first
-        const sortedOrders = data.orders.reverse();
-        setOrders(sortedOrders);
+        // Orders are already sorted newest first from backend
+        setOrders(data.orders);
 
         // Check for new orders only if audio is allowed
         if (audioAllowed) {
-          const newOrderIds = sortedOrders.map(order => order._id);
+          const newOrderIds = data.orders.map(order => order._id);
           // On first load, just set the ref, don't play sound
           if (firstLoad.current) {
             ordersRef.current = newOrderIds;
