@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 // import { dummyProducts } from "../assets/assets";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { io } from "socket.io-client";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
@@ -54,6 +55,22 @@ export const AppContextProvider = ({ children }) => {
     fetchUser();
     fetchSeller();
     fetchProducts();
+
+    // Connect to Socket.io for real-time product updates
+    const socket = io(import.meta.env.VITE_BACKEND_URL);
+
+    socket.on("connect", () => {
+      console.log("Connected to product updates socket");
+    });
+
+    socket.on("stockUpdate", () => {
+      console.log("Product update received, refreshing products...");
+      fetchProducts();
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, [token]);
 
 
