@@ -93,7 +93,7 @@ const EditProduct = () => {
                 formData.append("images", files[i]);
             }
 
-            const { data } = await axios.post("api/product/update", formData);
+            const { data } = await axios.post("/api/product/update", formData);
             if (data.success) {
                 toast.success(data.message);
                 navigate("/seller/product-list");
