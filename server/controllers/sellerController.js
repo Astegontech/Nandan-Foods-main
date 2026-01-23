@@ -73,7 +73,36 @@ export const getSellerDashboardStats = async (req, res) => {
     const totalSales = paidOrders.reduce((acc, order) => acc + order.amount, 0);
 
     // Get low stock products (< 5)
-    const lowStockProducts = await Product.find({ quantity: { $lt: 5 } }).select("name quantity image");
+    // Check both main 'stock' and 'weightVariants.stock'
+    const rawLowStockProducts = await Product.find({
+      $or: [
+        { stock: { $lt: 5 } },
+        { "weightVariants.stock": { $lt: 5 } }
+      ]
+    }).select("name stock weightVariants image");
+
+    // Process to find the specific low stock count for display
+    const lowStockProducts = rawLowStockProducts.map(p => {
+      let minStock = p.stock;
+
+      // If variants exist, find the lowest stock among them
+      if (p.weightVariants && p.weightVariants.length > 0) {
+        const variantStocks = p.weightVariants.map(v => v.stock);
+        minStock = Math.min(...variantStocks);
+      }
+
+      // Return structure matching frontend expectation (quantity)
+      // Only include if effectively low (double safety, though query handles most)
+      if (minStock < 5) {
+        return {
+          _id: p._id,
+          name: p.name,
+          image: p.image,
+          quantity: minStock
+        };
+      }
+      return null;
+    }).filter(item => item !== null);
 
     // Get recent orders (last 5) - Prioritize pending orders
     // Exclude 'Delivered', 'Cancelled', and 'Successfully Refunded' to show actionable orders
