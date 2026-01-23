@@ -16,6 +16,12 @@ export const addProduct = async (req, res) => {
 
     await Product.create({ ...productData, image: imagesUrl });
 
+    // Emit stock update event
+    const io = req.app.get("io");
+    if (io) {
+      io.emit("stockUpdate");
+    }
+
     res.json({ success: true, message: "Product Added" });
   } catch (error) {
     console.log(error.message);
@@ -48,6 +54,13 @@ export const changeStock = async (req, res) => {
   try {
     const { id, inStock } = req.body;
     await Product.findByIdAndUpdate(id, { inStock });
+
+    // Emit stock update event
+    const io = req.app.get("io");
+    if (io) {
+      io.emit("stockUpdate");
+    }
+
     res.json({ success: true, message: "Stock Updated" });
   } catch (error) {
     console.log(error.message);
@@ -59,6 +72,13 @@ export const deleteProduct = async (req, res) => {
   try {
     const { id } = req.body;
     await Product.findByIdAndDelete(id);
+
+    // Emit stock update event
+    const io = req.app.get("io");
+    if (io) {
+      io.emit("stockUpdate");
+    }
+
     res.json({ success: true, message: "Product Deleted" });
   } catch (error) {
     console.log(error.message);
@@ -87,6 +107,13 @@ export const updateProduct = async (req, res) => {
     delete productData.id;
 
     await Product.findByIdAndUpdate(id, productData);
+
+    // Emit stock update event
+    const io = req.app.get("io");
+    if (io) {
+      io.emit("stockUpdate");
+    }
+
     res.json({ success: true, message: "Product Updated" });
   } catch (error) {
     console.log(error.message);

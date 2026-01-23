@@ -141,6 +141,12 @@ export const placeOrderCOD = async (req, res) => {
     // Clear user's cart after placing COD order
     await User.findByIdAndUpdate(userId, { cartItems: {} });
 
+    // Emit stock update event
+    const io = req.app.get("io");
+    if (io) {
+      io.emit("stockUpdate");
+    }
+
     return res
       .status(200)
       .json({ success: true, message: "Order placed successfully" });
@@ -448,6 +454,12 @@ export const verifyRazorpayPayment = async (req, res) => {
     // Clear user's cart
     if (order) {
       await User.findByIdAndUpdate(order.userId, { cartItems: {} });
+    }
+
+    // Emit stock update event
+    const io = req.app.get("io");
+    if (io) {
+      io.emit("stockUpdate");
     }
 
     return res

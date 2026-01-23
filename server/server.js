@@ -74,10 +74,36 @@ app.use("/api/order", orderRouter);
 // Export app for Vercel
 export default app;
 
+// Create HTTP server
+import { createServer } from "http";
+import { Server } from "socket.io";
+
+const server = createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: allowedOrigins, // Use the same allowedOrigins array
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
+
+// Store io instance in app to access it in controllers
+app.set("io", io);
+
+io.on("connection", (socket) => {
+  console.log("New client connected", socket.id);
+
+  socket.on("disconnect", () => {
+    console.log("Client disconnected", socket.id);
+  });
+});
+
+
 // Listen if strictly local OR running on Render
 // Vercel serverless will skip this because NODE_ENV is production and RENDER is undefined
 if (process.env.NODE_ENV !== "production" || process.env.RENDER) {
-  app.listen(port, () => {
+  server.listen(port, () => {
     console.log(`Server started on port ${port}`);
   });
 }

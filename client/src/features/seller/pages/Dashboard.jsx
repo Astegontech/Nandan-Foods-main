@@ -21,28 +21,55 @@ import {
     Legend
 } from "recharts";
 
+import { io } from "socket.io-client";
+
 const Dashboard = () => {
     const { axios, currency } = useAppContext();
     const navigate = useNavigate();
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchStats = async () => {
-            try {
-                const { data } = await axios.get("/api/seller/dashboard-stats");
-                if (data.success) {
-                    setStats(data.stats);
-                } else {
-                    toast.error(data.message);
-                }
-            } catch (error) {
-                toast.error(error.message);
-            } finally {
-                setLoading(false);
+    const fetchStats = async () => {
+        try {
+            const { data } = await axios.get("/api/seller/dashboard-stats");
+            if (data.success) {
+                setStats(data.stats);
+            } else {
+                toast.error(data.message);
             }
-        };
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
         fetchStats();
+
+        // Connect to Socket.io
+        const socket = io(import.meta.env.VITE_BACKEND_URL);
+
+        socket.on("connect", () => {
+            console.log("Connected to socket server");
+        });
+
+        socket.on("stockUpdate", () => {
+            console.log("Stock update received, refreshing stats...");
+            fetchStats();
+            toast("Stock updated!", {
+                icon: '📦',
+                style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                },
+            });
+        });
+
+        return () => {
+            socket.disconnect();
+        };
     }, []);
 
     if (loading) {
