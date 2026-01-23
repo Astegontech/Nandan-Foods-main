@@ -399,7 +399,7 @@ const Dashboard = () => {
                                             <h4 className="text-sm font-semibold text-gray-900 truncate">{product.name}</h4>
                                             <p className="text-xs text-red-500 font-medium">Only {product.quantity} left in stock</p>
                                         </div>
-                                        <button className="text-xs font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-md transition-colors">Restock</button>
+                                        <button onClick={() => navigate(`/seller/product-list/edit/${product._id}`)} className="text-xs font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-md transition-colors">Restock</button>
                                     </div>
                                 ))}
                             </div>
