@@ -21,7 +21,10 @@ console.log("Server Startup - NODE_ENV:", process.env.NODE_ENV, "RENDER:", proce
 
 const allowedOrigins = [
   "https://nandanfoods.store",
-  "https://www.nandanfoods.store"
+  "https://www.nandanfoods.store",
+  "http://localhost:5173",
+  "http://localhost:4000",
+  "http://localhost:5174"
 ];
 
 const corsOptions = {

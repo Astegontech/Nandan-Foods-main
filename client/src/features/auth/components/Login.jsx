@@ -249,7 +249,7 @@ const Login = () => {
   };
 
   return (
-    <div className="absolute top-0 left-0 right-0 bottom-0 z-10 backdrop-blur-sm bg-black/30 flex justify-center items-center">
+    <div className="fixed top-0 left-0 right-0 bottom-0 z-[100] backdrop-blur-sm bg-black/30 flex justify-center items-center">
       <form onSubmit={(e) => {
         if (mode === "LOGIN") handleLogin(e);
         else if (mode === "SIGNUP") handleSignup(e);
